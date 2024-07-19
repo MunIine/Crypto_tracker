@@ -1,6 +1,6 @@
 {
-    "name": "coins_list",
-    "short_name": "coins_list",
+    "name": "crypto_tracker",
+    "short_name": "crypto_tracker",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
