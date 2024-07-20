@@ -49,8 +49,7 @@ class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                   const SizedBox(height: 10),
-                  Card(
-                    color: const Color.fromARGB(80, 20, 20, 20),
+                  _CardData(
                     child: Center(
                       heightFactor: 1.6,
                       child: Text(
@@ -59,17 +58,17 @@ class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
                       )
                     ),
                   ),
-                  Card(
-                    color: const Color.fromARGB(80, 20, 20, 20),
+                  _CardData(
                     child: Padding(
                       padding: const EdgeInsets.all(16),
                       child: Column(
-                      children: [
-                        CryptoDataRow(title: "Hight 24 hours", value: "${coinDetails.high24Hours.toString()}\$"),
-                        CryptoDataRow(title: "Low 24 hours", value: "${coinDetails.low24Hours.toString()}\$")
-                      ],
+                        children: [
+                          CryptoDataRow(title: "Hight 24 hours", value: "${coinDetails.high24Hours.toString()}\$"),
+                          CryptoDataRow(title: "Low 24 hours", value: "${coinDetails.low24Hours.toString()}\$")
+                        ],
+                      )
                     )
-                  ))
+                  )
                 ],
               ),
             );
@@ -106,6 +105,24 @@ class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
             return const Center(child: CircularProgressIndicator());
         },
       )
+    );
+  }
+}
+
+class _CardData extends StatelessWidget{
+  const _CardData({
+    required this.child
+  });
+
+  final Widget child;
+
+
+  @override
+  Widget build(BuildContext context) {
+    return Card(
+      color: const Color.fromARGB(80, 20, 20, 20),
+      margin: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
+      child: child
     );
   }
 }
