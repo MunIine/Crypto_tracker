@@ -15,27 +15,22 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
     final data = response.data["RAW"] as Map<String, dynamic>;
     final cryptoCoinsList = data.entries.map((e) {
       final dataUSD = (e.value as Map<String, dynamic>)["USD"] as Map<String, dynamic>;
-      final num price = dataUSD["PRICE"];
-      final String imageURL = dataUSD["IMAGEURL"];
-      return CryptoCoin(name: e.key, priceInUSD: price, imageURL: "https://www.cryptocompare.com$imageURL");
+      return CryptoCoin(name: e.key, details: CryptoCoinDetails.fromJson(dataUSD));
     }).toList();
 
     return cryptoCoinsList;
   }
   
   @override
-  Future<CryptoCoinDetails> getCoinDetails(String coinName) async {
+  Future<CryptoCoin> getCoinDetails(String coinName) async {
     final response = await dio.get(
       "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=$coinName&tsyms=USD"
     );
     final data = response.data["RAW"] as Map<String, dynamic>;
     final dataUSD = data[coinName]["USD"] as Map<String, dynamic>;
-    return CryptoCoinDetails(
+    return CryptoCoin(
       name: coinName, 
-      priceInUSD: dataUSD["PRICE"], 
-      imageURL: "https://www.cryptocompare.com${dataUSD["IMAGEURL"]}", 
-      high24Hours: dataUSD["HIGH24HOUR"], 
-      low24Hours: dataUSD["LOW24HOUR"]
+      details: CryptoCoinDetails.fromJson(dataUSD)
     );
   }
 }

@@ -18,12 +18,15 @@ dependencies:
   talker_flutter: ^4.3.2
   talker_dio_logger: ^4.3.3
   talker_bloc_logger: ^4.3.3
+  json_annotation: ^4.9.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
   flutter_lints: ^3.0.0
+  json_serializable: ^6.8.0
+  build_runner: 
 
 flutter:
   uses-material-design: true

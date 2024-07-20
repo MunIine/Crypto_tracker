@@ -16,7 +16,7 @@ class CryptoCoinTile extends StatelessWidget {
       semanticContainer: false,
       child: ListTile(
         leading: Image.network(
-          coin.imageURL,
+          coin.details.fullImageURL,
           width: 50,
           height: 50,
         ),
@@ -25,7 +25,7 @@ class CryptoCoinTile extends StatelessWidget {
           style: Theme.of(context).textTheme.bodyMedium,
         ),
         subtitle: Text(
-          "${coin.priceInUSD}\$",
+          "${coin.details.priceInUSD}\$",
           style: Theme.of(context).textTheme.labelSmall,
         ),
         trailing: const Icon(Icons.arrow_forward_ios),
