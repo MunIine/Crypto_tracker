@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
+import 'package:coins_list/extensions/num_extensions.dart';
 
 part "crypto_coin_details.g.dart";
 
@@ -18,10 +19,16 @@ class CryptoCoinDetails extends Equatable{
   @JsonKey(name: "IMAGEURL")
   final String imageURL;
 
-  @JsonKey(name: "HIGH24HOUR")
+  @JsonKey(
+    name: "HIGH24HOUR",
+    fromJson: _decimalFromJson
+  )
   final num high24Hours;
 
-  @JsonKey(name: "LOW24HOUR")
+  @JsonKey(
+    name: "LOW24HOUR",
+    fromJson: _decimalFromJson
+  )
   final num low24Hours;
 
   get fullImageURL => "https://www.cryptocompare.com$imageURL";
@@ -29,7 +36,8 @@ class CryptoCoinDetails extends Equatable{
   factory CryptoCoinDetails.fromJson(Map<String, dynamic> json) => _$CryptoCoinDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$CryptoCoinDetailsToJson(this);
 
+  static num _decimalFromJson(num number) => number.cutNumber(9);
+
   @override
   List<Object?> get props => [priceInUSD, imageURL, high24Hours, low24Hours];
-
 }

@@ -10,8 +10,9 @@ CryptoCoinDetails _$CryptoCoinDetailsFromJson(Map<String, dynamic> json) =>
     CryptoCoinDetails(
       priceInUSD: json['PRICE'] as num,
       imageURL: json['IMAGEURL'] as String,
-      high24Hours: json['HIGH24HOUR'] as num,
-      low24Hours: json['LOW24HOUR'] as num,
+      high24Hours:
+          CryptoCoinDetails._decimalFromJson(json['HIGH24HOUR'] as num),
+      low24Hours: CryptoCoinDetails._decimalFromJson(json['LOW24HOUR'] as num),
     );
 
 Map<String, dynamic> _$CryptoCoinDetailsToJson(CryptoCoinDetails instance) =>
