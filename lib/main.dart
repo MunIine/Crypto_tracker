@@ -18,7 +18,7 @@ void main() async{
 
   GetIt.I.registerSingleton(talker);
 
-  talker.debug("Start talker...");
+  talker.info("Start talker...");
 
   dio.interceptors.add(
     TalkerDioLogger(

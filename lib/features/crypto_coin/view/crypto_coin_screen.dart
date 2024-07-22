@@ -42,7 +42,10 @@ class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
                   SizedBox(
                     height: 160,
                     width: 160,
-                    child: Image.network(coinDetails.fullImageURL)
+                    child: Image.network(
+                      coinDetails.fullImageURL,
+                      errorBuilder: (context, e, st) => Image.asset("lib/assets/default_coin.png"),
+                    )
                   ),
                   Text(
                     coinName,

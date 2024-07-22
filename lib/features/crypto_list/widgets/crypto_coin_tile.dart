@@ -18,6 +18,7 @@ class CryptoCoinTile extends StatelessWidget {
           coin.details.fullImageURL,
           width: 50,
           height: 50,
+          errorBuilder: (context, e, st) => Image.asset("lib/assets/default_coin.png"),
         ),
         title: Text(
           coin.name,
