@@ -1,9 +1,11 @@
 import 'package:equatable/equatable.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
 import 'package:coins_list/extensions/num_extensions.dart';
 
 part "crypto_coin_details.g.dart";
 
+@HiveType(typeId: 1)
 @JsonSerializable()
 class CryptoCoinDetails extends Equatable{
   const CryptoCoinDetails({
@@ -13,18 +15,22 @@ class CryptoCoinDetails extends Equatable{
     required this.low24Hours
   });
 
+  @HiveField(0)
   @JsonKey(name: "PRICE")
   final num priceInUSD;
 
+  @HiveField(1)
   @JsonKey(name: "IMAGEURL")
   final String imageURL;
 
+  @HiveField(2)
   @JsonKey(
     name: "HIGH24HOUR",
     fromJson: _decimalFromJson
   )
   final num high24Hours;
 
+  @HiveField(3)
   @JsonKey(
     name: "LOW24HOUR",
     fromJson: _decimalFromJson

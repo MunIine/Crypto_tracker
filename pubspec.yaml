@@ -20,6 +20,7 @@ dependencies:
   talker_bloc_logger: ^4.3.3
   json_annotation: ^4.9.0
   flutter_launcher_icons: ^0.13.1
+  hive_flutter: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -27,6 +28,7 @@ dev_dependencies:
 
   flutter_lints: ^3.0.0
   json_serializable: ^6.8.0
+  hive_generator: ^2.0.1
   build_runner: 
 
 flutter:
