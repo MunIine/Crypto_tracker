@@ -55,7 +55,7 @@ class CryptoCoinDetailsAdapter extends TypeAdapter<CryptoCoinDetails> {
 
 CryptoCoinDetails _$CryptoCoinDetailsFromJson(Map<String, dynamic> json) =>
     CryptoCoinDetails(
-      priceInUSD: json['PRICE'] as num,
+      priceInUSD: CryptoCoinDetails._decimalFromJson(json['PRICE'] as num),
       imageURL: json['IMAGEURL'] as String,
       high24Hours:
           CryptoCoinDetails._decimalFromJson(json['HIGH24HOUR'] as num),

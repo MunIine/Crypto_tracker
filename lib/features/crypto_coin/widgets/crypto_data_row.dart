@@ -17,7 +17,7 @@ class CryptoDataRow extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         SizedBox(
-          width: 140,
+          width: 180,
           child: Text(
             title,
             style: Theme.of(context).textTheme.labelMedium,

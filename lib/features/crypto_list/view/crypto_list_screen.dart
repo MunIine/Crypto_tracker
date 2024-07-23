@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:coins_list/features/crypto_list/bloc/crypto_list_bloc.dart';
 import 'package:coins_list/features/crypto_list/widgets/widgets.dart';
+import 'package:coins_list/generated/l10n.dart';
 import 'package:coins_list/repositories/crypto_coins/crypto_coins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -31,7 +32,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Список криптовалют"),
+        title: Text(S.of(context).homeScreenTitle),
         centerTitle: true,
         actions: [
           IconButton(
@@ -73,11 +74,11 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         Text(
-                          "Something went wrong",
+                          S.of(context).somethingWentWrong,
                           style: Theme.of(context).textTheme.headlineMedium,
                         ),
                         Text(
-                          "Please try later", 
+                          S.of(context).pleaseTryLater, 
                           style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 16),
                         ),
                         TextButton(
@@ -85,7 +86,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
                             _cryptoListBloc.add(LoadCryptoList());
                           }, 
                           child: Text(
-                            "TRY AGAIN", 
+                            S.of(context).tryAgainButton, 
                             style: Theme.of(context).textTheme.labelSmall?.copyWith(
                               color: Colors.amberAccent,
                               fontWeight: FontWeight.w500)

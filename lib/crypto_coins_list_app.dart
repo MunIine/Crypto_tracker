@@ -1,6 +1,8 @@
+import 'package:coins_list/generated/l10n.dart';
 import 'package:coins_list/router/router.dart';
 import 'package:coins_list/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get_it/get_it.dart';
 import 'package:talker_flutter/talker_flutter.dart';
 
@@ -18,6 +20,14 @@ class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp.router(
+      localizationsDelegates: const [
+        S.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: S.delegate.supportedLocales,
+
       title: 'Crypto coins list',
       theme: darkTheme,
       routerConfig: _appRouter.config(

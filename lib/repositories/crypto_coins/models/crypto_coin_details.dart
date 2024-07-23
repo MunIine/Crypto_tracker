@@ -16,7 +16,10 @@ class CryptoCoinDetails extends Equatable{
   });
 
   @HiveField(0)
-  @JsonKey(name: "PRICE")
+  @JsonKey(
+    name: "PRICE",
+    fromJson: _decimalFromJson
+  )
   final num priceInUSD;
 
   @HiveField(1)
@@ -42,7 +45,7 @@ class CryptoCoinDetails extends Equatable{
   factory CryptoCoinDetails.fromJson(Map<String, dynamic> json) => _$CryptoCoinDetailsFromJson(json);
   Map<String, dynamic> toJson() => _$CryptoCoinDetailsToJson(this);
 
-  static num _decimalFromJson(num number) => number.cutNumber(9);
+  static num _decimalFromJson(num number) => number.cutNumber(6);
 
   @override
   List<Object?> get props => [priceInUSD, imageURL, high24Hours, low24Hours];

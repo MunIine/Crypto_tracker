@@ -1,6 +1,6 @@
 name: coins_list
 description: "Crypto tracker"
-publish_to: 'none' 
+publish_to: 'none'
 version: 1.0.0+1
 
 environment:
@@ -8,6 +8,9 @@ environment:
 
 dependencies:
   flutter:
+    sdk: flutter
+
+  flutter_localizations:
     sdk: flutter
 
   cupertino_icons: ^1.0.6
@@ -55,3 +58,6 @@ flutter_launcher_icons:
   macos:
     generate: true
     image_path: "lib/assets/icon.png"
+
+flutter_intl:
+  enabled: true

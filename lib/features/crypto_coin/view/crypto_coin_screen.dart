@@ -1,6 +1,7 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:coins_list/features/crypto_coin/bloc/crypto_coin_bloc.dart';
 import 'package:coins_list/features/crypto_coin/widgets/widgets.dart';
+import 'package:coins_list/generated/l10n.dart';
 import 'package:coins_list/repositories/crypto_coins/crypto_coins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -70,8 +71,8 @@ class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
                       padding: const EdgeInsets.all(16),
                       child: Column(
                         children: [
-                          CryptoDataRow(title: "Hight 24 hours", value: "${coinDetails.high24Hours.toString()}\$"),
-                          CryptoDataRow(title: "Low 24 hours", value: "${coinDetails.low24Hours.toString()}\$")
+                          CryptoDataRow(title: S.of(context).hight24Hours, value: "${coinDetails.high24Hours.toString()}\$"),
+                          CryptoDataRow(title: S.of(context).low24Hours, value: "${coinDetails.low24Hours.toString()}\$")
                         ],
                       )
                     )
@@ -87,11 +88,11 @@ class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
                     Text(
-                      "Something went wrong",
+                      S.of(context).somethingWentWrong,
                       style: Theme.of(context).textTheme.headlineMedium,
                     ),
                     Text(
-                      "Please try later", 
+                      S.of(context).pleaseTryLater, 
                       style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 16),
                     ),
                     TextButton(
@@ -99,7 +100,7 @@ class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
                         _cryptoCoinBloc.add(LoadCryptoCoin(coinName: widget.coinName));
                       }, 
                       child: Text(
-                        "TRY AGAIN", 
+                        S.of(context).tryAgainButton, 
                         style: Theme.of(context).textTheme.labelSmall?.copyWith(
                           color: Colors.amberAccent,
                           fontWeight: FontWeight.w500)
