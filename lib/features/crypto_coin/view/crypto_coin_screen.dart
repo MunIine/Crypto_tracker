@@ -1,3 +1,4 @@
+import 'package:auto_route/auto_route.dart';
 import 'package:coins_list/features/crypto_coin/bloc/crypto_coin_bloc.dart';
 import 'package:coins_list/features/crypto_coin/widgets/widgets.dart';
 import 'package:coins_list/repositories/crypto_coins/crypto_coins.dart';
@@ -5,8 +6,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
+@RoutePage()
 class CryptoCoinScreen extends StatefulWidget {
-  const CryptoCoinScreen({super.key});
+  const CryptoCoinScreen({
+    super.key, 
+    required this.coinName
+  });
+
+  final String coinName;
 
   @override
   State<CryptoCoinScreen> createState() => _CryptoCoinScreenState();
@@ -15,15 +22,12 @@ class CryptoCoinScreen extends StatefulWidget {
 class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
   
   final _cryptoCoinBloc = CryptoCoinBloc(GetIt.I<AbstractCoinsRepository>());
-  late String coinName;
-
   @override
-  void didChangeDependencies() {
-    coinName = ModalRoute.of(context)!.settings.arguments as String;
-    _cryptoCoinBloc.add(LoadCryptoCoin(coinName: coinName));
-    setState(() {});
-    super.didChangeDependencies();
+  void initState() {
+    _cryptoCoinBloc.add(LoadCryptoCoin(coinName: widget.coinName));
+    super.initState();
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -48,7 +52,7 @@ class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
                     )
                   ),
                   Text(
-                    coinName,
+                    widget.coinName,
                     style: Theme.of(context).textTheme.headlineMedium,
                   ),
                   const SizedBox(height: 10),
@@ -92,7 +96,7 @@ class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
                     ),
                     TextButton(
                       onPressed: (){
-                        _cryptoCoinBloc.add(LoadCryptoCoin(coinName: coinName));
+                        _cryptoCoinBloc.add(LoadCryptoCoin(coinName: widget.coinName));
                       }, 
                       child: Text(
                         "TRY AGAIN", 
