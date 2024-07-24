@@ -4,6 +4,7 @@ import 'package:coins_list/crypto_coins_list_app.dart';
 import 'package:coins_list/repositories/crypto_coins/crypto_coins.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 import 'package:hive_flutter/hive_flutter.dart';
@@ -42,6 +43,12 @@ void main() async{
   runZonedGuarded(
     () async{
       // Вынужденный перенос инициализации из-за zone mismatch exception
+      WidgetsFlutterBinding.ensureInitialized();
+      SystemChrome.setPreferredOrientations([
+        DeviceOrientation.portraitUp, 
+        DeviceOrientation.portraitDown
+      ]);
+      
       await Hive.initFlutter(); 
       Hive.registerAdapter(CryptoCoinAdapter());
       Hive.registerAdapter(CryptoCoinDetailsAdapter());
