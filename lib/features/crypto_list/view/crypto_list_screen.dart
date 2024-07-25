@@ -46,62 +46,90 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
             icon: const Icon(Icons.document_scanner_outlined))
         ],
       ),
-      body: RefreshIndicator(
-        onRefresh: () async {
-          final completer = Completer();
-          _cryptoListBloc.add(LoadCryptoList(completer: completer));
-          return completer.future;
-        },
-        child: Padding(
-          padding: const EdgeInsets.all(10),
-          child:
-            BlocBuilder<CryptoListBloc, CryptoListState>(
-              bloc: _cryptoListBloc,
-              builder: (context, state) {
-                if (state is CryptoListLoaded){
-                  return ListView.builder(
-                    itemCount: state.coinsList.length,
-                    itemBuilder: (context, i) {
-                      final coin = state.coinsList[i];
-                      return CryptoCoinTile(coin: coin);
-                    },
-                  );
-                }
-                if (state is CryptoListLoadingFailure){
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text(
-                          S.of(context).somethingWentWrong,
-                          style: Theme.of(context).textTheme.headlineMedium,
-                        ),
-                        Text(
-                          S.of(context).pleaseTryLater, 
-                          style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 16),
-                        ),
-                        TextButton(
-                          onPressed: (){
-                            _cryptoListBloc.add(LoadCryptoList());
-                          }, 
-                          child: Text(
-                            S.of(context).tryAgainButton, 
-                            style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                              color: Colors.amberAccent,
-                              fontWeight: FontWeight.w500)
-                            )
-                        )
-                      ]
-                    )
-                  );
-                }
-                return const Center(child: CircularProgressIndicator());
-              },
+      body: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            Padding(
+              padding: const EdgeInsets.all(6),
+              child:
+                Container(
+                  padding: const EdgeInsets.all(8),
+                  decoration: BoxDecoration(
+                    color: const Color.fromARGB(255, 58, 58, 58),
+                    borderRadius: BorderRadius.circular(8),
+                    border: Border.all(color: Colors.grey),
+                  ),
+                  child: Row(
+                    children: [
+                      const Icon(Icons.search, color: Colors.grey),
+                      const SizedBox(width: 10),
+                      Text(
+                        "Search coins...",
+                        style: Theme.of(context).textTheme.labelSmall
+                      )
+                    ],
+                  ),
+                ),
             ),
-          
+            RefreshIndicator(
+              onRefresh: () async {
+                final completer = Completer();
+                _cryptoListBloc.add(LoadCryptoList(completer: completer));
+                return completer.future;
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(10),
+                child:
+                  BlocBuilder<CryptoListBloc, CryptoListState>(
+                    bloc: _cryptoListBloc,
+                    builder: (context, state) {
+                      if (state is CryptoListLoaded){
+                        return ListView.builder(
+                          itemCount: state.coinsList.length,
+                          itemBuilder: (context, i) {
+                            final coin = state.coinsList[i];
+                            return CryptoCoinTile(coin: coin);
+                          },
+                        );
+                      }
+                      if (state is CryptoListLoadingFailure){
+                        return Center(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                S.of(context).somethingWentWrong,
+                                style: Theme.of(context).textTheme.headlineMedium,
+                              ),
+                              Text(
+                                S.of(context).pleaseTryLater, 
+                                style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 16),
+                              ),
+                              TextButton(
+                                onPressed: (){
+                                  _cryptoListBloc.add(LoadCryptoList());
+                                }, 
+                                child: Text(
+                                  S.of(context).tryAgainButton, 
+                                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
+                                    color: Colors.amberAccent,
+                                    fontWeight: FontWeight.w500)
+                                )
+                              )
+                            ]
+                          )
+                        );
+                      }
+                    return const Center(child: CircularProgressIndicator());
+                  },
+                ),
+              )
+            )
+          ],
         ),
-      )
+      ),
     );
   }
 }
