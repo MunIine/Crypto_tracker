@@ -22,10 +22,12 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "cryptoCoinsSearchBar":
+            MessageLookupByLibrary.simpleMessage("Поиск криптовалют..."),
         "hight24Hours":
             MessageLookupByLibrary.simpleMessage("Макс. за 24 часа"),
         "homeScreenTitle":
-            MessageLookupByLibrary.simpleMessage("Список криптовалюты"),
+            MessageLookupByLibrary.simpleMessage("Крипто трекер"),
         "low24Hours": MessageLookupByLibrary.simpleMessage("Мин. за 24 часа"),
         "pleaseTryLater":
             MessageLookupByLibrary.simpleMessage("Пожалуйста попробуйте позже"),

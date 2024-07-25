@@ -34,45 +34,28 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
       appBar: AppBar(
         title: Text(S.of(context).homeScreenTitle),
         centerTitle: true,
+        leading: IconButton(
+          onPressed: (){
+            Navigator.of(context).push(
+              MaterialPageRoute(
+                builder: (context) => TalkerScreen(talker: GetIt.I<Talker>())
+              )
+            );
+          },
+          icon: const Icon(Icons.document_scanner_outlined)
+        ),
         actions: [
           IconButton(
-            onPressed: (){
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) => TalkerScreen(talker: GetIt.I<Talker>())
-                )
-              );
-            },
-            icon: const Icon(Icons.document_scanner_outlined))
+            onPressed: (){}, 
+            icon: const Icon(Icons.settings)
+          )
         ],
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.all(6),
-              child:
-                Container(
-                  padding: const EdgeInsets.all(8),
-                  decoration: BoxDecoration(
-                    color: const Color.fromARGB(255, 58, 58, 58),
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.grey),
-                  ),
-                  child: Row(
-                    children: [
-                      const Icon(Icons.search, color: Colors.grey),
-                      const SizedBox(width: 10),
-                      Text(
-                        "Search coins...",
-                        style: Theme.of(context).textTheme.labelSmall
-                      )
-                    ],
-                  ),
-                ),
-            ),
-            RefreshIndicator(
+      body: Column(
+        children: [
+          CryptoSearchBar(text: S.of(context).cryptoCoinsSearchBar),
+          Expanded(
+            child: RefreshIndicator(
               onRefresh: () async {
                 final completer = Completer();
                 _cryptoListBloc.add(LoadCryptoList(completer: completer));
@@ -114,7 +97,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
                                 child: Text(
                                   S.of(context).tryAgainButton, 
                                   style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                    color: Colors.amberAccent,
+                                      color: Colors.amberAccent,
                                     fontWeight: FontWeight.w500)
                                 )
                               )
@@ -126,9 +109,9 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
                   },
                 ),
               )
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

@@ -27,6 +27,7 @@ class _MyAppState extends State<MyApp> {
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: S.delegate.supportedLocales,
+      locale: Locale("ru"),
 
       title: 'Crypto coins list',
       theme: darkTheme,

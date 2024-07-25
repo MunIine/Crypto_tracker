@@ -50,10 +50,10 @@ class S {
     return Localizations.of<S>(context, S);
   }
 
-  /// `Crypto coins list`
+  /// `Crypto tracker`
   String get homeScreenTitle {
     return Intl.message(
-      'Crypto coins list',
+      'Crypto tracker',
       name: 'homeScreenTitle',
       desc: '',
       args: [],
@@ -105,6 +105,16 @@ class S {
     return Intl.message(
       'TRY AGAIN',
       name: 'tryAgainButton',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Search coins...`
+  String get cryptoCoinsSearchBar {
+    return Intl.message(
+      'Search coins...',
+      name: 'cryptoCoinsSearchBar',
       desc: '',
       args: [],
     );

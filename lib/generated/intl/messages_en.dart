@@ -22,9 +22,11 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "cryptoCoinsSearchBar":
+            MessageLookupByLibrary.simpleMessage("Search coins..."),
         "hight24Hours": MessageLookupByLibrary.simpleMessage("Hight 24 hours"),
         "homeScreenTitle":
-            MessageLookupByLibrary.simpleMessage("Crypto coins list"),
+            MessageLookupByLibrary.simpleMessage("Crypto tracker"),
         "low24Hours": MessageLookupByLibrary.simpleMessage("Low 24 hours"),
         "pleaseTryLater":
             MessageLookupByLibrary.simpleMessage("Please try later"),

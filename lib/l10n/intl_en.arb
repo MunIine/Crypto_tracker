@@ -1,8 +1,9 @@
 {
-  "homeScreenTitle": "Crypto coins list",
+  "homeScreenTitle": "Crypto tracker",
   "hight24Hours": "Hight 24 hours",
   "low24Hours": "Low 24 hours",
   "somethingWentWrong": "Something went wrong",
   "pleaseTryLater": "Please try later",
-  "tryAgainButton": "TRY AGAIN"
+  "tryAgainButton": "TRY AGAIN",
+  "cryptoCoinsSearchBar": "Search coins..."
 }
