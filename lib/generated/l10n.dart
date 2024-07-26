@@ -119,6 +119,16 @@ class S {
       args: [],
     );
   }
+
+  /// `Search coins...`
+  String get searchBottomSheetText {
+    return Intl.message(
+      'Search coins...',
+      name: 'searchBottomSheetText',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

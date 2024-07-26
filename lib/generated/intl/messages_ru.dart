@@ -31,6 +31,8 @@ class MessageLookup extends MessageLookupByLibrary {
         "low24Hours": MessageLookupByLibrary.simpleMessage("Мин. за 24 часа"),
         "pleaseTryLater":
             MessageLookupByLibrary.simpleMessage("Пожалуйста попробуйте позже"),
+        "searchBottomSheetText":
+            MessageLookupByLibrary.simpleMessage("Поиск криптовалют..."),
         "somethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Что-то пошло не так"),
         "tryAgainButton":

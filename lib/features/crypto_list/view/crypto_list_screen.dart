@@ -30,10 +30,13 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
         title: Text(S.of(context).homeScreenTitle),
         centerTitle: true,
+        backgroundColor: theme.scaffoldBackgroundColor,
+        surfaceTintColor: theme.scaffoldBackgroundColor,
         leading: IconButton(
           onPressed: (){
             Navigator.of(context).push(
@@ -53,7 +56,17 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
       ),
       body: Column(
         children: [
-          CryptoSearchBar(text: S.of(context).cryptoCoinsSearchBar),
+          CryptoSearchBar(
+            text: S.of(context).cryptoCoinsSearchBar,
+            onTap: (){
+              showModalBottomSheet(
+                isScrollControlled: true,
+                context: context, 
+                backgroundColor: theme.scaffoldBackgroundColor,
+                builder: (context) => SearchBottomSheet(hintText: S.of(context).searchBottomSheetText)
+              );
+            },
+          ),
           Expanded(
             child: RefreshIndicator(
               onRefresh: () async {
@@ -61,52 +74,13 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
                 _cryptoListBloc.add(LoadCryptoList(completer: completer));
                 return completer.future;
               },
+              backgroundColor: theme.scaffoldBackgroundColor,
               child: Padding(
                 padding: const EdgeInsets.all(10),
                 child:
                   BlocBuilder<CryptoListBloc, CryptoListState>(
                     bloc: _cryptoListBloc,
-                    builder: (context, state) {
-                      if (state is CryptoListLoaded){
-                        return ListView.builder(
-                          itemCount: state.coinsList.length,
-                          itemBuilder: (context, i) {
-                            final coin = state.coinsList[i];
-                            return CryptoCoinTile(coin: coin);
-                          },
-                        );
-                      }
-                      if (state is CryptoListLoadingFailure){
-                        return Center(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.center,
-                            children: [
-                              Text(
-                                S.of(context).somethingWentWrong,
-                                style: Theme.of(context).textTheme.headlineMedium,
-                              ),
-                              Text(
-                                S.of(context).pleaseTryLater, 
-                                style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 16),
-                              ),
-                              TextButton(
-                                onPressed: (){
-                                  _cryptoListBloc.add(LoadCryptoList());
-                                }, 
-                                child: Text(
-                                  S.of(context).tryAgainButton, 
-                                  style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                                      color: Colors.amberAccent,
-                                    fontWeight: FontWeight.w500)
-                                )
-                              )
-                            ]
-                          )
-                        );
-                      }
-                    return const Center(child: CircularProgressIndicator());
-                  },
+                    builder: _buildCoinsList,
                 ),
               )
             ),
@@ -114,5 +88,21 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
         ],
       ),
     );
+  }
+
+  Widget _buildCoinsList(context, state) {
+    if (state is CryptoListLoaded) {
+      return ListView.builder(
+        itemCount: state.coinsList.length,
+        itemBuilder: (context, i) {
+          final coin = state.coinsList[i];
+          return CryptoCoinTile(coin: coin);
+        },
+      );
+    }
+    if (state is CryptoListLoadingFailure) {
+      return FailureScreen(cryptoListBloc: _cryptoListBloc);
+    }
+    return const Center(child: CircularProgressIndicator());
   }
 }

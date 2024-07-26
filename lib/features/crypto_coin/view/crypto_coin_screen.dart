@@ -36,84 +36,66 @@ class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
       appBar: AppBar(),
       body: BlocBuilder<CryptoCoinBloc, CryptoCoinState>(
         bloc: _cryptoCoinBloc,
-        builder: (context, state) {
-          if (state is CryptoCoinLoaded){
-            final coin = state.coinDetails;
-            final coinDetails = coin.details;
-            return Center(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  SizedBox(
-                    height: 160,
-                    width: 160,
-                    child: Image.network(
-                      coinDetails.fullImageURL,
-                      errorBuilder: (context, e, st) => Image.asset("lib/assets/default_coin.png"),
-                    )
-                  ),
-                  Text(
-                    widget.coinName,
-                    style: Theme.of(context).textTheme.headlineMedium,
-                  ),
-                  const SizedBox(height: 10),
-                  _CardData(
-                    child: Center(
-                      heightFactor: 1.6,
-                      child: Text(
-                        "${coinDetails.priceInUSD.toString()}\$",
-                        style: Theme.of(context).textTheme.bodyLarge,
-                      )
-                    ),
-                  ),
-                  _CardData(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          CryptoDataRow(title: S.of(context).hight24Hours, value: "${coinDetails.high24Hours.toString()}\$"),
-                          CryptoDataRow(title: S.of(context).low24Hours, value: "${coinDetails.low24Hours.toString()}\$")
-                        ],
-                      )
-                    )
-                  )
-                ],
-              ),
-            );
-          }
-          if (state is CryptoCoinLoadingFailure){
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      S.of(context).somethingWentWrong,
-                      style: Theme.of(context).textTheme.headlineMedium,
-                    ),
-                    Text(
-                      S.of(context).pleaseTryLater, 
-                      style: Theme.of(context).textTheme.labelSmall?.copyWith(fontSize: 16),
-                    ),
-                    TextButton(
-                      onPressed: (){
-                        _cryptoCoinBloc.add(LoadCryptoCoin(coinName: widget.coinName));
-                      }, 
-                      child: Text(
-                        S.of(context).tryAgainButton, 
-                        style: Theme.of(context).textTheme.labelSmall?.copyWith(
-                          color: Colors.amberAccent,
-                          fontWeight: FontWeight.w500)
-                        )
-                    )
-                  ]
-                )
-              );
-            }
-            return const Center(child: CircularProgressIndicator());
-        },
+        builder: _buildCoinScreen,
       )
     );
+  }
+
+  Widget _buildCoinScreen(context, state) {
+    if (state is CryptoCoinLoaded) {
+      final coin = state.coinDetails;
+      final coinDetails = coin.details;
+      return Center(
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            SizedBox(
+              height: 160,
+              width: 160,
+              child: Image.network(
+                coinDetails.fullImageURL,
+                errorBuilder: (context, e, st) => Image.asset("lib/assets/default_coin.png"),
+              )
+            ),
+            Text(
+              widget.coinName,
+              style: Theme.of(context).textTheme.headlineMedium,
+            ),
+            const SizedBox(height: 10),
+            _CardData(
+              child: Center(
+                heightFactor: 1.6,
+                child: Text(
+                  "${coinDetails.priceInUSD.toString()}\$",
+                  style: Theme.of(context).textTheme.bodyLarge,
+                )
+              ),
+            ),
+            _CardData(
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  children: [
+                    CryptoDataRow(
+                      title: S.of(context).hight24Hours,
+                      value: "${coinDetails.high24Hours.toString()}\$"
+                    ),
+                    CryptoDataRow(
+                      title: S.of(context).low24Hours,
+                      value: "${coinDetails.low24Hours.toString()}\$"
+                    )
+                  ],
+                )
+              )
+            )
+          ],
+        ),
+      );
+    }
+    if (state is CryptoCoinLoadingFailure) {
+      return FailureScreen(cryptoCoinBloc: _cryptoCoinBloc, coinName: widget.coinName);
+    }
+    return const Center(child: CircularProgressIndicator());
   }
 }
 

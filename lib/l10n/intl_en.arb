@@ -5,5 +5,6 @@
   "somethingWentWrong": "Something went wrong",
   "pleaseTryLater": "Please try later",
   "tryAgainButton": "TRY AGAIN",
-  "cryptoCoinsSearchBar": "Search coins..."
+  "cryptoCoinsSearchBar": "Search coins...",
+  "searchBottomSheetText": "Search coins..."
 }
