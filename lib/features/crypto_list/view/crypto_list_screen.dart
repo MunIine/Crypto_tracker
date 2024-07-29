@@ -5,6 +5,7 @@ import 'package:coins_list/features/crypto_list/bloc/crypto_list_bloc.dart';
 import 'package:coins_list/features/crypto_list/widgets/widgets.dart';
 import 'package:coins_list/generated/l10n.dart';
 import 'package:coins_list/repositories/crypto_coins/crypto_coins.dart';
+import 'package:coins_list/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
@@ -35,8 +36,6 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
       appBar: AppBar(
         title: Text(S.of(context).homeScreenTitle),
         centerTitle: true,
-        backgroundColor: theme.scaffoldBackgroundColor,
-        surfaceTintColor: theme.scaffoldBackgroundColor,
         leading: IconButton(
           onPressed: (){
             Navigator.of(context).push(
@@ -96,7 +95,11 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
         itemCount: state.coinsList.length,
         itemBuilder: (context, i) {
           final coin = state.coinsList[i];
-          return CryptoCoinTile(coin: coin);
+          return CryptoCoinTile(
+            coin: coin, 
+            trailing: const Icon(Icons.arrow_forward_ios),
+            onTap: () => AutoRouter.of(context).push(CryptoCoinRoute(coinName: coin.name)),
+          );
         },
       );
     }

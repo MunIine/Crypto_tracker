@@ -1,15 +1,17 @@
-import 'package:auto_route/auto_route.dart';
 import 'package:coins_list/repositories/crypto_coins/models/crypto_coin.dart';
-import 'package:coins_list/router/router.dart';
 import 'package:flutter/material.dart';
 
 class CryptoCoinTile extends StatelessWidget {
   const CryptoCoinTile({
     super.key,
-    required this.coin,
+    required this.coin, 
+    this.trailing, 
+    this.onTap,
   });
 
   final CryptoCoin coin;
+  final Widget? trailing;
+  final VoidCallback? onTap;
 
   @override
   Widget build(BuildContext context) {
@@ -30,10 +32,8 @@ class CryptoCoinTile extends StatelessWidget {
           "${coin.details.priceInUSD}\$",
           style: Theme.of(context).textTheme.labelSmall,
         ),
-        trailing: const Icon(Icons.arrow_forward_ios),
-        onTap: () {
-          AutoRouter.of(context).push(CryptoCoinRoute(coinName: coin.name));
-        },
+        trailing: trailing,
+        onTap: onTap,
       ),
     );
   }

@@ -1,3 +1,5 @@
+import 'package:coins_list/features/crypto_list/widgets/widgets.dart';
+import 'package:coins_list/repositories/crypto_coins/models/models.dart';
 import 'package:flutter/material.dart';
 
 class SearchBottomSheet extends StatelessWidget {
@@ -49,10 +51,24 @@ class SearchBottomSheet extends StatelessWidget {
                     Icons.search,
                     color: theme.scaffoldBackgroundColor,
                   ),
-                )
+                ),
               ],
             ),
           ),
+        ),
+        Expanded(
+          //DEMO
+          child: ListView.builder(
+            itemCount: 10,
+            itemBuilder: (context, item){
+              return const CryptoCoinTile(coin: CryptoCoin(
+                name: "DemoCoin",
+                details: CryptoCoinDetails(priceInUSD: 50000, imageURL: "https://www.cryptocompare.com/media/37746251/btc.png", high24Hours: 23000, low24Hours: 23000)
+                ),
+                trailing: Icon(Icons.star_border),
+              );
+            }
+          )
         ),
       ],
     );
