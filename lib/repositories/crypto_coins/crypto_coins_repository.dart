@@ -67,4 +67,25 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
       details: CryptoCoinDetails.fromJson(dataUSD)
     );
   }
+
+  @override
+  Future<CryptoCoinsAll> getAllCoinsList() async{
+    final response = await dio.get(
+      "https://min-api.cryptocompare.com/data/all/coinlist"
+    );
+    final data = response.data["Data"] as Map<String, dynamic>;
+    final Map<String, String> symbolToName = {};
+    final Map<String, List<String>> nameToSymbol = {};
+
+    for (var e in data.entries) {
+      final symbol = e.key;
+      final name = e.value["CoinName"];
+      symbolToName[symbol] = name;
+      nameToSymbol.update(name, (value){
+        value.add(symbol);
+        return value;
+      }, ifAbsent: () => [symbol]);
+    }
+    return CryptoCoinsAll(symbolToName: symbolToName, nameToSymbol: nameToSymbol);
+  }
 }

@@ -1,6 +1,8 @@
 import 'package:coins_list/features/crypto_list/widgets/widgets.dart';
+import 'package:coins_list/repositories/crypto_coins/abstract_coins_repository.dart';
 import 'package:coins_list/repositories/crypto_coins/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:get_it/get_it.dart';
 
 class SearchBottomSheet extends StatelessWidget {
   const SearchBottomSheet({
@@ -57,7 +59,7 @@ class SearchBottomSheet extends StatelessWidget {
           ),
         ),
         Expanded(
-          //DEMO
+          //TODO: DEMO
           child: ListView.builder(
             itemCount: 10,
             itemBuilder: (context, item){
@@ -70,6 +72,7 @@ class SearchBottomSheet extends StatelessWidget {
             }
           )
         ),
+        FloatingActionButton(onPressed: () => GetIt.I<AbstractCoinsRepository>().getAllCoinsList())
       ],
     );
   }
