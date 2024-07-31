@@ -52,8 +52,14 @@ void main() async{
       await Hive.initFlutter(); 
       Hive.registerAdapter(CryptoCoinAdapter());
       Hive.registerAdapter(CryptoCoinDetailsAdapter());
+      Hive.registerAdapter(CryptoCoinsAllAdapter());
       final cryptoCoinsBox = await Hive.openBox<CryptoCoin>("crypto_coin_box");
-      GetIt.I.registerLazySingleton<AbstractCoinsRepository>(() => CryptoCoinsRepository(dio: dio, cryptoCoinsBox: cryptoCoinsBox));
+      final cryptoCoinsAllBox = await Hive.openBox<CryptoCoinsAll>("crypto_coins_all_box");
+      GetIt.I.registerLazySingleton<AbstractCoinsRepository>(() => CryptoCoinsRepository(
+        dio: dio, 
+        cryptoCoinsBox: cryptoCoinsBox,
+        cryptoCoinsAllBox: cryptoCoinsAllBox
+      ));
       
       runApp(const MyApp());
     },

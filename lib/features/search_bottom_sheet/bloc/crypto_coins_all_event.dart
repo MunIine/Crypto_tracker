@@ -10,12 +10,10 @@ class LoadCryptoCoinsAll extends CryptoCoinsAllEvent{
 class SearchCryptoCoin extends CryptoCoinsAllEvent{
   SearchCryptoCoin({
     required this.coinName, 
-    required this.coinsAll
   });
 
   final String coinName;
-  final CryptoCoinsAll coinsAll;
 
   @override
-  List<Object?> get props => [coinName, coinsAll];
+  List<Object?> get props => [coinName];
 }

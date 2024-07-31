@@ -8,11 +8,14 @@ import 'package:talker_flutter/talker_flutter.dart';
 class CryptoCoinsRepository implements AbstractCoinsRepository{
   CryptoCoinsRepository({
     required this.cryptoCoinsBox,
+    required this.cryptoCoinsAllBox,
     required this.dio
   });
 
   final Dio dio;
   final Box<CryptoCoin> cryptoCoinsBox;
+  final Box<CryptoCoinsAll> cryptoCoinsAllBox;
+
   var cryptoCoinsList = <CryptoCoin>[];
 
   @override
@@ -48,7 +51,7 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
   }
 
   @override
-  Future<CryptoCoinsAll> getAllCoinsList() async{
+  Future<void> getAllCoinsList() async{
     final response = await dio.get(
       "https://min-api.cryptocompare.com/data/all/coinlist"
     );
@@ -65,12 +68,15 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
         return value;
       }, ifAbsent: () => [symbol]);
     }
-    return CryptoCoinsAll(symbolToName: symbolToName, nameToSymbol: nameToSymbol);
+    cryptoCoinsAllBox.put("cryptoCoinsAll", CryptoCoinsAll(symbolToName: symbolToName, nameToSymbol: nameToSymbol));
   }
   
   @override
-  Future<List<CryptoCoin>> getCoinFromSearch(String coinName, CryptoCoinsAll coinsAll) async{
+  Future<List<CryptoCoin>> getCoinFromSearch(String coinName) async{
     coinName = coinName.trim();
+
+    final coinsAll = cryptoCoinsAllBox.get("cryptoCoinsAll")!;
+
     final nameToSymbol = coinsAll.nameToSymbol;
     String coinNameFromMap = "";
     if (nameToSymbol.containsKey(coinName)) {

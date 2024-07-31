@@ -14,8 +14,8 @@ class CryptoCoinsAllBloc extends Bloc<CryptoCoinsAllEvent, CryptoCoinsAllState> 
         if (state is! CryptoCoinsAllLoaded){
         emit(CryptoCoinsAllLoading());
         }
-        final coinsListAll = await coinsRepository.getAllCoinsList();
-        emit(CryptoCoinsAllLoaded(cryptoCoinsAll: coinsListAll));
+        await coinsRepository.getAllCoinsList();
+        emit(CryptoCoinsAllLoaded());
       }catch (e, st) {
         emit(CryptoCoinsAllLoadingFailure(exception: e));
         GetIt.I<Talker>().handle(e, st);
@@ -27,7 +27,7 @@ class CryptoCoinsAllBloc extends Bloc<CryptoCoinsAllEvent, CryptoCoinsAllState> 
         if (state is! SearchCryptoCoinLoaded){
         emit(SearchCryptoCoinLoading());
         }
-        final coinsList = await coinsRepository.getCoinFromSearch(event.coinName, event.coinsAll);
+        final coinsList = await coinsRepository.getCoinFromSearch(event.coinName);
         emit(SearchCryptoCoinLoaded(coinsList: coinsList));
       } catch (e, st) {
         emit(SearchCryptoCoinLoadingFailure(exception: e));

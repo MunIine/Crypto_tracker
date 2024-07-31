@@ -60,7 +60,9 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                 ),
                 const SizedBox(width: 8),
                 GestureDetector(
-                  onTap: (){},
+                  onTap: (){
+                    _cryptoCoinsAllBloc.add(SearchCryptoCoin(coinName: controller.text));
+                  },
                   child: Container(
                     width: 45,
                     height: 45,

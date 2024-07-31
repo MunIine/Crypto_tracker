@@ -1,3 +1,4 @@
+import 'package:coins_list/config/config.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hive_flutter/hive_flutter.dart';
 import 'package:json_annotation/json_annotation.dart';
@@ -5,7 +6,7 @@ import 'package:coins_list/extensions/num_extensions.dart';
 
 part "crypto_coin_details.g.dart";
 
-@HiveType(typeId: 1)
+@HiveType(typeId: CRYPTO_COIN_DETAILS_ID)
 @JsonSerializable()
 class CryptoCoinDetails extends Equatable{
   const CryptoCoinDetails({

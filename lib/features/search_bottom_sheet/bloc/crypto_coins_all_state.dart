@@ -13,12 +13,8 @@ class CryptoCoinsAllLoading extends CryptoCoinsAllState {
 }
 
 class CryptoCoinsAllLoaded extends CryptoCoinsAllState {
-  CryptoCoinsAllLoaded({required this.cryptoCoinsAll});
-
-  final CryptoCoinsAll cryptoCoinsAll;
-
   @override
-  List<Object?> get props => [cryptoCoinsAll];
+  List<Object?> get props => [];
 }
 
 class CryptoCoinsAllLoadingFailure extends CryptoCoinsAllState{
