@@ -5,6 +5,7 @@ import 'package:coins_list/features/crypto_list/bloc/crypto_list_bloc.dart';
 import 'package:coins_list/features/crypto_list/widgets/widgets.dart';
 import 'package:coins_list/generated/l10n.dart';
 import 'package:coins_list/repositories/crypto_coins/crypto_coins.dart';
+import 'package:coins_list/features/search_bottom_sheet/view/search_bottom_sheet.dart';
 import 'package:coins_list/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';

@@ -18,7 +18,10 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
   @override
   Future<List<CryptoCoin>> getCoinsList() async {
     try {
-      List<CryptoCoin> cryptoCoinsList = await _fetchCryptoCoinsListFromAPI();
+      final response = await dio.get(
+        "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=USDT,BTC,ETH,TONCOIN,NOT,SOL,BNB,DOGE,XPR,USDC,TRX,ADA&tsyms=USD"
+      );
+      List<CryptoCoin> cryptoCoinsList = await _fetchCryptoCoinsListFromAPI(response);
       
       final cryptoCoinsMap = {for (var el in cryptoCoinsList) el.name: el};
       await cryptoCoinsBox.putAll(cryptoCoinsMap);
@@ -29,18 +32,6 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
       cryptoCoinsList = cryptoCoinsBox.values.toList();
     }
 
-    return cryptoCoinsList;
-  }
-
-  Future<List<CryptoCoin>> _fetchCryptoCoinsListFromAPI() async {
-    final response = await dio.get(
-      "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=USDT,BTC,ETH,TONCOIN,NOT,SOL,BNB,DOGE,XPR,USDC,TRX,ADA&tsyms=USD"
-    );
-    final data = response.data["RAW"] as Map<String, dynamic>;
-    final cryptoCoinsList = data.entries.map((e) {
-      final dataUSD = (e.value as Map<String, dynamic>)["USD"] as Map<String, dynamic>;
-      return CryptoCoin(name: e.key, details: CryptoCoinDetails.fromJson(dataUSD));
-    }).toList();
     return cryptoCoinsList;
   }
   
@@ -54,18 +45,6 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
       GetIt.I<Talker>().handle(e, st);
       return cryptoCoinsBox.get(coinName)!;
     }
-  }
-
-  Future<CryptoCoin> _fetchCryptoCoinDetailsFromAPI(String coinName) async {
-    final response = await dio.get(
-      "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=$coinName&tsyms=USD"
-    );
-    final data = response.data["RAW"] as Map<String, dynamic>;
-    final dataUSD = data[coinName]["USD"] as Map<String, dynamic>;
-    return CryptoCoin(
-      name: coinName, 
-      details: CryptoCoinDetails.fromJson(dataUSD)
-    );
   }
 
   @override
@@ -87,5 +66,50 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
       }, ifAbsent: () => [symbol]);
     }
     return CryptoCoinsAll(symbolToName: symbolToName, nameToSymbol: nameToSymbol);
+  }
+  
+  @override
+  Future<List<CryptoCoin>> getCoinFromSearch(String coinName, CryptoCoinsAll coinsAll) async{
+    coinName = coinName.trim();
+    final nameToSymbol = coinsAll.nameToSymbol;
+    String coinNameFromMap = "";
+    if (nameToSymbol.containsKey(coinName)) {
+      final namesList = nameToSymbol[coinName];
+      for (var i in namesList!){
+        coinNameFromMap += "$i,";
+      }
+    }else {
+      coinNameFromMap = coinName;
+    }
+
+    final response = await dio.get(
+      "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=${coinNameFromMap.toString()}&tsyms=USD"
+    );
+    final responseData = response.data as Map;
+
+    throwIf(responseData.containsValue("Error"), Exception("Coin not found"));
+    return await _fetchCryptoCoinsListFromAPI(response);
+  }
+
+
+  Future<List<CryptoCoin>> _fetchCryptoCoinsListFromAPI(Response<dynamic> response) async {
+    final data = response.data["RAW"] as Map<String, dynamic>;
+    final cryptoCoinsList = data.entries.map((e) {
+      final dataUSD = (e.value as Map<String, dynamic>)["USD"] as Map<String, dynamic>;
+      return CryptoCoin(name: e.key, details: CryptoCoinDetails.fromJson(dataUSD));
+    }).toList();
+    return cryptoCoinsList;
+  }
+
+  Future<CryptoCoin> _fetchCryptoCoinDetailsFromAPI(String coinName) async {
+    final response = await dio.get(
+      "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=$coinName&tsyms=USD"
+    );
+    final data = response.data["RAW"] as Map<String, dynamic>;
+    final dataUSD = data[coinName]["USD"] as Map<String, dynamic>;
+    return CryptoCoin(
+      name: coinName, 
+      details: CryptoCoinDetails.fromJson(dataUSD)
+    );
   }
 }
