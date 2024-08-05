@@ -22,14 +22,24 @@ class MessageLookup extends MessageLookupByLibrary {
 
   final messages = _notInlinedMessages(_notInlinedMessages);
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
+        "cannotFindTheCryptoCoin": MessageLookupByLibrary.simpleMessage(
+            "We cannot find the crypto coin"),
         "cryptoCoinsSearchBar":
             MessageLookupByLibrary.simpleMessage("Search coins..."),
+        "enterNameOrSymbol":
+            MessageLookupByLibrary.simpleMessage("Enter name or symbol"),
         "hight24Hours": MessageLookupByLibrary.simpleMessage("Hight 24 hours"),
         "homeScreenTitle":
             MessageLookupByLibrary.simpleMessage("Crypto tracker"),
+        "inSearchLine": MessageLookupByLibrary.simpleMessage("in search line"),
         "low24Hours": MessageLookupByLibrary.simpleMessage("Low 24 hours"),
+        "maybeALittleMistake":
+            MessageLookupByLibrary.simpleMessage("maybe a little mistake?"),
         "pleaseTryLater":
             MessageLookupByLibrary.simpleMessage("Please try later"),
+        "sadNoResult": MessageLookupByLibrary.simpleMessage("Sad no result!"),
+        "searchBottomSheetInitialText":
+            MessageLookupByLibrary.simpleMessage("Search crypto coins"),
         "searchBottomSheetText":
             MessageLookupByLibrary.simpleMessage("Search coins..."),
         "somethingWentWrong":

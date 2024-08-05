@@ -129,6 +129,66 @@ class S {
       args: [],
     );
   }
+
+  /// `Search crypto coins`
+  String get searchBottomSheetInitialText {
+    return Intl.message(
+      'Search crypto coins',
+      name: 'searchBottomSheetInitialText',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sad no result!`
+  String get sadNoResult {
+    return Intl.message(
+      'Sad no result!',
+      name: 'sadNoResult',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `We cannot find the crypto coin`
+  String get cannotFindTheCryptoCoin {
+    return Intl.message(
+      'We cannot find the crypto coin',
+      name: 'cannotFindTheCryptoCoin',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `maybe a little mistake?`
+  String get maybeALittleMistake {
+    return Intl.message(
+      'maybe a little mistake?',
+      name: 'maybeALittleMistake',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Enter name or symbol`
+  String get enterNameOrSymbol {
+    return Intl.message(
+      'Enter name or symbol',
+      name: 'enterNameOrSymbol',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `in search line`
+  String get inSearchLine {
+    return Intl.message(
+      'in search line',
+      name: 'inSearchLine',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

@@ -1,4 +1,5 @@
 
+import 'package:coins_list/extensions/exception_extensions.dart';
 import 'package:coins_list/repositories/crypto_coins/crypto_coins.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -61,7 +62,7 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
 
     for (var e in data.entries) {
       final symbol = e.key;
-      final name = e.value["CoinName"];
+      final name = e.value["CoinName"].toLowerCase();
       symbolToName[symbol] = name;
       nameToSymbol.update(name, (value){
         value.add(symbol);
@@ -73,7 +74,7 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
   
   @override
   Future<List<CryptoCoin>> getCoinFromSearch(String coinName) async{
-    coinName = coinName.trim();
+    coinName = coinName.trim().toLowerCase();
 
     final coinsAll = cryptoCoinsAllBox.get("cryptoCoinsAll")!;
 
@@ -93,7 +94,7 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
     );
     final responseData = response.data as Map;
 
-    throwIf(responseData.containsValue("Error"), Exception("Coin not found"));
+    throwIf(responseData.containsValue("Error"), CoinNotFoundException());
     return await _fetchCryptoCoinsListFromAPI(response);
   }
 

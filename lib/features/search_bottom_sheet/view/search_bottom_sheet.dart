@@ -1,8 +1,10 @@
+import 'package:coins_list/extensions/exception_extensions.dart';
 import 'package:coins_list/features/search_bottom_sheet/bloc/crypto_coins_all_bloc.dart';
-import 'package:coins_list/features/crypto_list/widgets/widgets.dart';
+import 'package:coins_list/features/crypto_list/widgets/crypto_coin_tile.dart';
+import 'package:coins_list/features/search_bottom_sheet/widgets/widgets.dart';
 import 'package:coins_list/repositories/crypto_coins/abstract_coins_repository.dart';
-import 'package:coins_list/repositories/crypto_coins/models/models.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 class SearchBottomSheet extends StatefulWidget {
@@ -20,6 +22,7 @@ class SearchBottomSheet extends StatefulWidget {
 class _SearchBottomSheetState extends State<SearchBottomSheet> {
 
   final _cryptoCoinsAllBloc = CryptoCoinsAllBloc(GetIt.I<AbstractCoinsRepository>());
+  final controller = TextEditingController();
 
   @override
   void initState() {
@@ -30,7 +33,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final controller = TextEditingController();
     return Column(
       children: [
         Padding(
@@ -60,9 +62,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                 ),
                 const SizedBox(width: 8),
                 GestureDetector(
-                  onTap: (){
-                    _cryptoCoinsAllBloc.add(SearchCryptoCoin(coinName: controller.text));
-                  },
+                  onTap: () => _searchCoin(),
                   child: Container(
                     width: 45,
                     height: 45,
@@ -81,21 +81,48 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
           ),
         ),
         Expanded(
-          //TODO: DEMO
-          child: ListView.builder(
-            itemCount: 10,
-            itemBuilder: (context, item){
-              return const CryptoCoinTile(coin: CryptoCoin(
-                name: "DemoCoin",
-                details: CryptoCoinDetails(priceInUSD: 50000, imageURL: "https://www.cryptocompare.com/media/37746251/btc.png", high24Hours: 23000, low24Hours: 23000)
-                ),
-                trailing: Icon(Icons.star_border),
-              );
-            }
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 10).copyWith(bottom: 65),
+            child: BlocBuilder<CryptoCoinsAllBloc, CryptoCoinsAllState>(
+              bloc: _cryptoCoinsAllBloc,
+              builder: _buildCoinsList
+            ),
           )
         ),
-        // FloatingActionButton(onPressed: () => GetIt.I<AbstractCoinsRepository>().getAllCoinsList())
       ],
     );
+  }
+
+  void _searchCoin() {
+    final query = controller.text;
+    if (query.trim().isNotEmpty) {
+      _cryptoCoinsAllBloc.add(SearchCryptoCoin(coinName: query));
+    }
+  }
+
+  Widget _buildCoinsList(context, state) {
+    if (state is SearchCryptoCoinLoaded) {
+      return ListView.builder(
+        itemCount: state.coinsList.length,
+        itemBuilder: (context, i) {
+          final coin = state.coinsList[i];
+          return CryptoCoinTile(
+            coin: coin, 
+            trailing: const Icon(
+              Icons.star_border_rounded,
+              size: 35,
+            ),
+          );
+        },
+      );
+    }
+    if (state is SearchCryptoCoinLoading){
+      return const Center(child: CircularProgressIndicator());
+    }
+    if (state is SearchCryptoCoinLoadingFailure){
+      if (state.exception is CoinNotFoundException) return const CoinNotFoundScreen();
+      return const FailureScreen();
+    }
+    return const InitialSearchScreen();
   }
 }

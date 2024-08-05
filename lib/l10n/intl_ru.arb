@@ -6,5 +6,11 @@
   "pleaseTryLater": "Пожалуйста попробуйте позже",
   "tryAgainButton": "ПОПРОБОВАТЬ ЕЩЁ РАЗ",
   "cryptoCoinsSearchBar": "Поиск криптовалют...",
-  "searchBottomSheetText": "Поиск криптовалют..."
+  "searchBottomSheetText": "Поиск криптовалют...",
+  "searchBottomSheetInitialText": "Найдите криптовалюту",
+  "sadNoResult": "Увы, ничего не найдено!",
+  "cannotFindTheCryptoCoin": "Мы не можем найти криптовалюту",
+  "maybeALittleMistake": "возможно допущена ошибка?",
+  "enterNameOrSymbol": "Введите название или символ",
+  "inSearchLine": "в строку поиска"
 }
