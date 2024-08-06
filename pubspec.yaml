@@ -42,6 +42,7 @@ flutter:
   assets:
     - lib/assets/default_coin.png
     - lib/assets/coin_not_found.png
+    - lib/assets/empty_box.png
 
 flutter_launcher_icons:
   android: "launcher_icon"

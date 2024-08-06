@@ -101,11 +101,18 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
       );
     }
     if (state is CryptoListLoadingFailure) {
-      return const FailureScreen();
+      return _centerWithAppbar(const FailureScreen());
     }
     if (state is CryptoListInitial){
-      return Text("Start Search");
+      return _centerWithAppbar(const InitialScreen());
     }
-    return const Center(child: CircularProgressIndicator());
+    return _centerWithAppbar(const Center(child: CircularProgressIndicator()));
+  }
+
+  Padding _centerWithAppbar(child) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 50),
+      child: child
+    );
   }
 }

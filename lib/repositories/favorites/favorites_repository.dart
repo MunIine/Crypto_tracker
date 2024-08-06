@@ -8,6 +8,7 @@ class FavoritesRepository implements AbstractFavoritesRepository{
 
   @override
   Future<Favorite> addOrRemoveFavorite(String coinName) async{
+    // ignore: prefer_const_constructors, prefer_const_literals_to_create_immutables
     Favorite favorites = favoritesBox.get("Favorites") ?? Favorite(coinNames: []);
     if(favorites.coinNames.contains(coinName)){
       favorites.coinNames.remove(coinName);
@@ -20,6 +21,7 @@ class FavoritesRepository implements AbstractFavoritesRepository{
   
   @override
   Future<Favorite> getFavorites() async{
+    // ignore: prefer_const_constructors, prefer_const_literals_to_create_immutables
     return favoritesBox.get("Favorites") ?? Favorite(coinNames: []);
   }
 }
