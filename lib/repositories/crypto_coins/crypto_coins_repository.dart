@@ -20,10 +20,14 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
   var cryptoCoinsList = <CryptoCoin>[];
 
   @override
-  Future<List<CryptoCoin>> getCoinsList() async {
+  Future<List<CryptoCoin>> getCoinsList(List<String> coinsName) async {
     try {
+      String coinNameToResponse = "";
+      for (var i in coinsName){
+        coinNameToResponse += "$i,";
+      }
       final response = await dio.get(
-        "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=USDT,BTC,ETH,TONCOIN,NOT,SOL,BNB,DOGE,XPR,USDC,TRX,ADA&tsyms=USD"
+        "https://min-api.cryptocompare.com/data/pricemultifull?fsyms=$coinNameToResponse&tsyms=USD"
       );
       List<CryptoCoin> cryptoCoinsList = await _fetchCryptoCoinsListFromAPI(response);
       

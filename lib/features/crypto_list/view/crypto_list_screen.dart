@@ -103,6 +103,9 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
     if (state is CryptoListLoadingFailure) {
       return const FailureScreen();
     }
+    if (state is CryptoListInitial){
+      return Text("Start Search");
+    }
     return const Center(child: CircularProgressIndicator());
   }
 }

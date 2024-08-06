@@ -4,3 +4,4 @@
 const CRYPTO_COIN_DETAILS_ID = 1;
 const CRYPTO_COIN_ID = 2;
 const CRYPTO_COIN_ALL_ID = 3;
+const FAVORITES_ID = 4;

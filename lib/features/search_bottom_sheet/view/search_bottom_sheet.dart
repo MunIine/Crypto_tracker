@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:coins_list/extensions/exception_extensions.dart';
+import 'package:coins_list/features/crypto_list/bloc/crypto_list_bloc.dart';
 import 'package:coins_list/features/search_bottom_sheet/bloc/crypto_coins_all_bloc.dart';
 import 'package:coins_list/features/crypto_list/widgets/crypto_coin_tile.dart';
 import 'package:coins_list/features/search_bottom_sheet/widgets/widgets.dart';
@@ -101,11 +104,16 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         itemCount: state.coinsList.length,
         itemBuilder: (context, i) {
           final coin = state.coinsList[i];
+          final isFavorite = state.favoritesList[i];
           return CryptoCoinTile(
             coin: coin, 
-            trailing: const Icon(
-              Icons.star_border_rounded,
-              size: 35,
+            trailing: IconButton(
+              onPressed: () => _toggleFavorite(context, coin),
+              icon: Icon(
+                isFavorite ? Icons.star_rounded : Icons.star_border_rounded,
+                size: 35,
+                color: Theme.of(context).primaryColor,
+              )
             ),
           );
         },
@@ -119,5 +127,15 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
       return FailureScreen(controller: controller);
     }
     return const InitialSearchScreen();
+  }
+
+  Future<void> _toggleFavorite(context, coin) async{
+    final cryptoCoinsAllBloc = BlocProvider.of<CryptoCoinsAllBloc>(context);
+    final cryptoListBloc = BlocProvider.of<CryptoListBloc>(context);
+    final completer = Completer();
+
+    cryptoCoinsAllBloc.add(AddOrRemoveFavorite(coinName: coin.name, completer: completer));
+    await completer.future;
+    cryptoListBloc.add(LoadCryptoList());
   }
 }

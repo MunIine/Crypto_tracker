@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:coins_list/crypto_coins_list_app.dart';
 import 'package:coins_list/repositories/crypto_coins/crypto_coins.dart';
+import 'package:coins_list/repositories/favorites/favorites.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -53,8 +54,10 @@ void main() async{
       Hive.registerAdapter(CryptoCoinAdapter());
       Hive.registerAdapter(CryptoCoinDetailsAdapter());
       Hive.registerAdapter(CryptoCoinsAllAdapter());
+      Hive.registerAdapter(FavoriteAdapter());
       final cryptoCoinsBox = await Hive.openBox<CryptoCoin>("crypto_coin_box");
       final cryptoCoinsAllBox = await Hive.openBox<CryptoCoinsAll>("crypto_coins_all_box");
+      final favoritesBox = await Hive.openBox<Favorite>("favorites_box");
       final cryptoCoinsRepository = CryptoCoinsRepository(
         dio: dio, 
         cryptoCoinsBox: cryptoCoinsBox,
@@ -62,7 +65,10 @@ void main() async{
       );
       // GetIt.I.registerLazySingleton<AbstractCoinsRepository>(() => cryptoCoinsRepository);
       
-      runApp(MyApp(cryptoCoinsRepository: cryptoCoinsRepository));
+      runApp(MyApp(
+        cryptoCoinsRepository: cryptoCoinsRepository, 
+        favoritesRepository: FavoritesRepository(favoritesBox: favoritesBox)
+      ));
     },
     (e, st) => GetIt.I<Talker>().handle(e, st)
   );

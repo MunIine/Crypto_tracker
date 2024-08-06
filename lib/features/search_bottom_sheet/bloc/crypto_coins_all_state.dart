@@ -33,12 +33,26 @@ class SearchCryptoCoinLoading extends CryptoCoinsAllState {
 }
 
 class SearchCryptoCoinLoaded extends CryptoCoinsAllState {
-  SearchCryptoCoinLoaded({required this.coinsList});
+  SearchCryptoCoinLoaded({
+    required this.coinsList,
+    required this.favoritesList
+  });
 
   final List<CryptoCoin> coinsList;
+  final List<bool> favoritesList;
+
+  SearchCryptoCoinLoaded copyWith({
+    List<CryptoCoin>? coinsList,
+    List<bool>? favoritesList,
+  }) {
+    return SearchCryptoCoinLoaded(
+      coinsList: coinsList ?? this.coinsList,
+      favoritesList: favoritesList ?? this.favoritesList,
+    );
+  }
 
   @override
-  List<Object?> get props => [coinsList];
+  List<Object?> get props => [coinsList, favoritesList];
 }
 
 class SearchCryptoCoinLoadingFailure extends CryptoCoinsAllState{

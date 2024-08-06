@@ -3,6 +3,7 @@ import 'package:coins_list/features/crypto_list/bloc/crypto_list_bloc.dart';
 import 'package:coins_list/features/search_bottom_sheet/bloc/crypto_coins_all_bloc.dart';
 import 'package:coins_list/generated/l10n.dart';
 import 'package:coins_list/repositories/crypto_coins/crypto_coins.dart';
+import 'package:coins_list/repositories/favorites/favorites.dart';
 import 'package:coins_list/router/router.dart';
 import 'package:coins_list/theme/theme.dart';
 import 'package:flutter/material.dart';
@@ -14,10 +15,12 @@ import 'package:talker_flutter/talker_flutter.dart';
 class MyApp extends StatefulWidget {
   const MyApp({
     super.key, 
-    required this.cryptoCoinsRepository
+    required this.cryptoCoinsRepository, 
+    required this.favoritesRepository
   });
 
   final AbstractCoinsRepository cryptoCoinsRepository;
+  final AbstractFavoritesRepository favoritesRepository;
 
   @override
   State<MyApp> createState() => _MyAppState();
@@ -32,13 +35,13 @@ class _MyAppState extends State<MyApp> {
         return MultiBlocProvider(
         providers: [
           BlocProvider(
-            create: (context) => CryptoListBloc(widget.cryptoCoinsRepository),
+            create: (context) => CryptoListBloc(widget.cryptoCoinsRepository, widget.favoritesRepository),
           ),
           BlocProvider(
             create: (context) => CryptoCoinBloc(widget.cryptoCoinsRepository),
           ),
           BlocProvider(
-            create: (context) => CryptoCoinsAllBloc(widget.cryptoCoinsRepository),
+            create: (context) => CryptoCoinsAllBloc(widget.cryptoCoinsRepository, widget.favoritesRepository),
           ),
         ],
         child: MaterialApp.router(
