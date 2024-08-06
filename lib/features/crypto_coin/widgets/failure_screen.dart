@@ -1,15 +1,14 @@
 import 'package:coins_list/features/crypto_coin/bloc/crypto_coin_bloc.dart';
 import 'package:coins_list/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class FailureScreen extends StatelessWidget {
   const FailureScreen({
     super.key,
-    required CryptoCoinBloc cryptoCoinBloc,
     required this.coinName,
-  }) : _cryptoCoinBloc = cryptoCoinBloc;
+  });
 
-  final CryptoCoinBloc _cryptoCoinBloc;
   final String coinName;
 
   @override
@@ -30,7 +29,7 @@ class FailureScreen extends StatelessWidget {
           ),
           TextButton(
             onPressed: () {
-              _cryptoCoinBloc.add(LoadCryptoCoin(coinName: coinName));
+              BlocProvider.of<CryptoCoinBloc>(context).add(LoadCryptoCoin(coinName: coinName));
             },
             child: Text(
               S.of(context).tryAgainButton,

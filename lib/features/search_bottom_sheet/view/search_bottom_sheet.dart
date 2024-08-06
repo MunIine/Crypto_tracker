@@ -2,10 +2,8 @@ import 'package:coins_list/extensions/exception_extensions.dart';
 import 'package:coins_list/features/search_bottom_sheet/bloc/crypto_coins_all_bloc.dart';
 import 'package:coins_list/features/crypto_list/widgets/crypto_coin_tile.dart';
 import 'package:coins_list/features/search_bottom_sheet/widgets/widgets.dart';
-import 'package:coins_list/repositories/crypto_coins/abstract_coins_repository.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 class SearchBottomSheet extends StatefulWidget {
   const SearchBottomSheet({
@@ -20,13 +18,11 @@ class SearchBottomSheet extends StatefulWidget {
 }
 
 class _SearchBottomSheetState extends State<SearchBottomSheet> {
-
-  final _cryptoCoinsAllBloc = CryptoCoinsAllBloc(GetIt.I<AbstractCoinsRepository>());
   final controller = TextEditingController();
 
   @override
   void initState() {
-    _cryptoCoinsAllBloc.add(LoadCryptoCoinsAll());
+    BlocProvider.of<CryptoCoinsAllBloc>(context).add(LoadCryptoCoinsAll());
     super.initState();
   }
 
@@ -84,7 +80,6 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 10).copyWith(bottom: 65),
             child: BlocBuilder<CryptoCoinsAllBloc, CryptoCoinsAllState>(
-              bloc: _cryptoCoinsAllBloc,
               builder: _buildCoinsList
             ),
           )
@@ -96,7 +91,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   void _searchCoin() {
     final query = controller.text;
     if (query.trim().isNotEmpty) {
-      _cryptoCoinsAllBloc.add(SearchCryptoCoin(coinName: query));
+      BlocProvider.of<CryptoCoinsAllBloc>(context).add(SearchCryptoCoin(coinName: query));
     }
   }
 
@@ -121,7 +116,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     }
     if (state is SearchCryptoCoinLoadingFailure){
       if (state.exception is CoinNotFoundException) return const CoinNotFoundScreen();
-      return const FailureScreen();
+      return FailureScreen(controller: controller);
     }
     return const InitialSearchScreen();
   }

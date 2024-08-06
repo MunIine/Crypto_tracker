@@ -2,10 +2,8 @@ import 'package:auto_route/auto_route.dart';
 import 'package:coins_list/features/crypto_coin/bloc/crypto_coin_bloc.dart';
 import 'package:coins_list/features/crypto_coin/widgets/widgets.dart';
 import 'package:coins_list/generated/l10n.dart';
-import 'package:coins_list/repositories/crypto_coins/crypto_coins.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 
 @RoutePage()
 class CryptoCoinScreen extends StatefulWidget {
@@ -21,11 +19,9 @@ class CryptoCoinScreen extends StatefulWidget {
 }
 
 class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
-  
-  final _cryptoCoinBloc = CryptoCoinBloc(GetIt.I<AbstractCoinsRepository>());
   @override
   void initState() {
-    _cryptoCoinBloc.add(LoadCryptoCoin(coinName: widget.coinName));
+    BlocProvider.of<CryptoCoinBloc>(context).add(LoadCryptoCoin(coinName: widget.coinName));
     super.initState();
   }
 
@@ -35,7 +31,6 @@ class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
     return Scaffold(
       appBar: AppBar(),
       body: BlocBuilder<CryptoCoinBloc, CryptoCoinState>(
-        bloc: _cryptoCoinBloc,
         builder: _buildCoinScreen,
       )
     );
@@ -93,7 +88,7 @@ class _CryptoCoinScreenState extends State<CryptoCoinScreen> {
       );
     }
     if (state is CryptoCoinLoadingFailure) {
-      return FailureScreen(cryptoCoinBloc: _cryptoCoinBloc, coinName: widget.coinName);
+      return FailureScreen(coinName: widget.coinName);
     }
     return const Center(child: CircularProgressIndicator());
   }

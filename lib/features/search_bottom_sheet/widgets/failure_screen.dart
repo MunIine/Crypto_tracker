@@ -1,9 +1,18 @@
+import 'package:coins_list/features/search_bottom_sheet/bloc/crypto_coins_all_bloc.dart';
 import 'package:coins_list/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class FailureScreen extends StatelessWidget {
-  const FailureScreen({super.key});
+class FailureScreen extends StatefulWidget {
+  const FailureScreen({super.key, required this.controller});
 
+  final TextEditingController controller;
+
+  @override
+  State<FailureScreen> createState() => _FailureScreenState();
+}
+
+class _FailureScreenState extends State<FailureScreen> {
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -21,9 +30,7 @@ class FailureScreen extends StatelessWidget {
                   style: textTheme.labelSmall?.copyWith(fontSize: 16),
                 ),
                 TextButton(
-                  onPressed: () {
-                    // _cryptoListBloc.add(LoadCryptoList());
-                  },
+                  onPressed: () => _searchCoin(),
                   child: Text(
                     S.of(context).tryAgainButton,
                     style: textTheme.labelSmall?.copyWith(
@@ -35,5 +42,12 @@ class FailureScreen extends StatelessWidget {
               ]
           ),
     );
+  }
+
+  void _searchCoin() {
+    final query = widget.controller.text;
+    if (query.trim().isNotEmpty) {
+      BlocProvider.of<CryptoCoinsAllBloc>(context).add(SearchCryptoCoin(coinName: query));
+    }
   }
 }

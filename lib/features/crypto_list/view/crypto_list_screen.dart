@@ -4,7 +4,6 @@ import 'package:auto_route/auto_route.dart';
 import 'package:coins_list/features/crypto_list/bloc/crypto_list_bloc.dart';
 import 'package:coins_list/features/crypto_list/widgets/widgets.dart';
 import 'package:coins_list/generated/l10n.dart';
-import 'package:coins_list/repositories/crypto_coins/crypto_coins.dart';
 import 'package:coins_list/features/search_bottom_sheet/view/search_bottom_sheet.dart';
 import 'package:coins_list/router/router.dart';
 import 'package:flutter/material.dart';
@@ -22,11 +21,9 @@ class CryptoListScreen extends StatefulWidget {
 
 class _CryptoListScreenState extends State<CryptoListScreen> {
 
-  final _cryptoListBloc = CryptoListBloc(GetIt.I<AbstractCoinsRepository>());
-
   @override
   void initState() {
-    _cryptoListBloc.add(LoadCryptoList());
+    BlocProvider.of<CryptoListBloc>(context).add(LoadCryptoList());
     super.initState();
   }
 
@@ -71,7 +68,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
             child: RefreshIndicator(
               onRefresh: () async {
                 final completer = Completer();
-                _cryptoListBloc.add(LoadCryptoList(completer: completer));
+                BlocProvider.of<CryptoListBloc>(context).add(LoadCryptoList(completer: completer));
                 return completer.future;
               },
               backgroundColor: theme.scaffoldBackgroundColor,
@@ -79,7 +76,6 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
                 padding: const EdgeInsets.all(10),
                 child:
                   BlocBuilder<CryptoListBloc, CryptoListState>(
-                    bloc: _cryptoListBloc,
                     builder: _buildCoinsList,
                 ),
               )
@@ -105,7 +101,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
       );
     }
     if (state is CryptoListLoadingFailure) {
-      return FailureScreen(cryptoListBloc: _cryptoListBloc);
+      return const FailureScreen();
     }
     return const Center(child: CircularProgressIndicator());
   }
