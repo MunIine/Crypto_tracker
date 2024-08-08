@@ -65,13 +65,15 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
     final Map<String, List<String>> nameToSymbol = {};
 
     for (var e in data.entries) {
-      final symbol = e.key;
-      final name = e.value["CoinName"].toLowerCase();
-      symbolToName[symbol] = name;
-      nameToSymbol.update(name, (value){
-        value.add(symbol);
-        return value;
-      }, ifAbsent: () => [symbol]);
+      if (e.value["IsTrading"]){
+        final symbol = e.key;
+        final name = e.value["CoinName"].toLowerCase();
+        symbolToName[symbol] = name;
+        nameToSymbol.update(name, (value){
+          value.add(symbol);
+          return value;
+        }, ifAbsent: () => [symbol]);
+      }
     }
     cryptoCoinsAllBox.put("cryptoCoinsAll", CryptoCoinsAll(symbolToName: symbolToName, nameToSymbol: nameToSymbol));
   }
@@ -84,9 +86,10 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
 
     final nameToSymbol = coinsAll.nameToSymbol;
     String coinNameFromMap = "";
-    if (nameToSymbol.containsKey(coinName)) {
+    if (!coinsAll.symbolToName.keys.contains(coinName.toUpperCase())) {
       final namesList = nameToSymbol[coinName];
-      for (var i in namesList!){
+      if (namesList == null) throw(CoinNotFoundException());
+      for (var i in namesList){
         coinNameFromMap += "$i,";
       }
     }else {
