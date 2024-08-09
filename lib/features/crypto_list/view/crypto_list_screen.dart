@@ -112,11 +112,11 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
           );
         },
         proxyDecorator: (child, index, animation) {
-              return Material(
-                borderRadius: BorderRadius.circular(12),
-                color: const Color.fromARGB(255, 68, 68, 68),
-                child: child,
-              );  
+          return Material(
+            borderRadius: BorderRadius.circular(12),
+            color: const Color.fromARGB(255, 68, 68, 68),
+            child: child,
+          );  
         },
         onReorderStart: (index) => HapticFeedback.mediumImpact(),
         onReorder: (oldIndex, newIndex) {
