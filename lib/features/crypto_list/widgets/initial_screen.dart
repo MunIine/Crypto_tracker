@@ -18,10 +18,10 @@ class InitialScreen extends StatelessWidget {
         ),
         const SizedBox(height: 10),
         Text(
-          "В вашем списке криптовалют",
+          S.of(context).onYourListOfCryptocurrencies,
           style: theme.textTheme.labelMedium?.copyWith(color: Colors.white.withOpacity(0.9))),
         Text(
-          "пока ничего нет",
+          S.of(context).nothingYet,
           style: theme.textTheme.labelMedium?.copyWith(color: Colors.white.withOpacity(0.9))),
         const SizedBox(height: 5),
         Container(

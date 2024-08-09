@@ -189,6 +189,26 @@ class S {
       args: [],
     );
   }
+
+  /// `On your list of cryptocurrencies`
+  String get onYourListOfCryptocurrencies {
+    return Intl.message(
+      'On your list of cryptocurrencies',
+      name: 'onYourListOfCryptocurrencies',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `nothing yet`
+  String get nothingYet {
+    return Intl.message(
+      'nothing yet',
+      name: 'nothingYet',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

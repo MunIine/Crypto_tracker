@@ -36,6 +36,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "low24Hours": MessageLookupByLibrary.simpleMessage("Мин. за 24 часа"),
         "maybeALittleMistake":
             MessageLookupByLibrary.simpleMessage("возможно допущена ошибка?"),
+        "nothingYet": MessageLookupByLibrary.simpleMessage("пока ничего нет"),
+        "onYourListOfCryptocurrencies":
+            MessageLookupByLibrary.simpleMessage("В вашем списке криптовалют"),
         "pleaseTryLater":
             MessageLookupByLibrary.simpleMessage("Пожалуйста попробуйте позже"),
         "sadNoResult":

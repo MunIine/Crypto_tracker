@@ -12,5 +12,7 @@
   "cannotFindTheCryptoCoin": "Мы не можем найти криптовалюту",
   "maybeALittleMistake": "возможно допущена ошибка?",
   "enterNameOrSymbol": "Введите название или символ",
-  "inSearchLine": "в строку поиска"
+  "inSearchLine": "в строку поиска",
+  "onYourListOfCryptocurrencies": "В вашем списке криптовалют",
+  "nothingYet": "пока ничего нет"
 }

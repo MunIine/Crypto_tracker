@@ -35,6 +35,9 @@ class MessageLookup extends MessageLookupByLibrary {
         "low24Hours": MessageLookupByLibrary.simpleMessage("Low 24 hours"),
         "maybeALittleMistake":
             MessageLookupByLibrary.simpleMessage("maybe a little mistake?"),
+        "nothingYet": MessageLookupByLibrary.simpleMessage("nothing yet"),
+        "onYourListOfCryptocurrencies": MessageLookupByLibrary.simpleMessage(
+            "On your list of cryptocurrencies"),
         "pleaseTryLater":
             MessageLookupByLibrary.simpleMessage("Please try later"),
         "sadNoResult": MessageLookupByLibrary.simpleMessage("Sad no result!"),

@@ -23,12 +23,6 @@ class SearchBottomSheet extends StatefulWidget {
 class _SearchBottomSheetState extends State<SearchBottomSheet> {
   final controller = TextEditingController();
 
-  // @override
-  // void initState() {
-  //   BlocProvider.of<CryptoCoinsAllBloc>(context).add(LoadCryptoCoinsAll());
-  //   super.initState();
-  // }
-
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);

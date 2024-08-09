@@ -12,5 +12,7 @@
   "cannotFindTheCryptoCoin": "We cannot find the crypto coin",
   "maybeALittleMistake": "maybe a little mistake?",
   "enterNameOrSymbol": "Enter name or symbol",
-  "inSearchLine": "in search line"
+  "inSearchLine": "in search line",
+  "onYourListOfCryptocurrencies": "On your list of cryptocurrencies",
+  "nothingYet": "nothing yet"
 }
