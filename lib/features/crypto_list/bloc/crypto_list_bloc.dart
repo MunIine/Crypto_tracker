@@ -31,6 +31,9 @@ class CryptoListBloc extends Bloc<CryptoListEvent, CryptoListState> {
         event.completer?.complete();
       }
     });
+    on<ReorderFavorites>((event, emit) async{
+      await favoritesRepository.reorderFavorites(event.oldIndex, event.newIndex);
+    });
   }
 
   final AbstractCoinsRepository coinsRepository;

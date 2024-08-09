@@ -24,4 +24,12 @@ class FavoritesRepository implements AbstractFavoritesRepository{
     // ignore: prefer_const_constructors, prefer_const_literals_to_create_immutables
     return favoritesBox.get("Favorites") ?? Favorite(coinNames: []);
   }
+  
+  @override
+  Future<void> reorderFavorites(int oldIndex, int newIndex) async{
+    final favorites = favoritesBox.get("Favorites")!;
+    final element = favorites.coinNames.removeAt(oldIndex);
+    favorites.coinNames.insert(newIndex, element);
+    favoritesBox.put("Favorites", favorites);
+  }
 }

@@ -12,3 +12,16 @@ class LoadCryptoList extends CryptoListEvent{
   @override
   List<Object?> get props => [completer];
 }
+
+class ReorderFavorites extends CryptoListEvent{
+  ReorderFavorites({
+    required this.oldIndex, 
+    required this.newIndex
+  });
+
+  final int oldIndex;
+  final int newIndex;
+
+  @override
+  List<Object?> get props => [oldIndex, newIndex];
+}

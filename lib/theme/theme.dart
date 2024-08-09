@@ -8,7 +8,12 @@ final darkTheme = ThemeData(
   colorScheme: ColorScheme.fromSeed(seedColor: primaryColor, brightness: Brightness.dark),
   primaryColor: primaryColor,
   useMaterial3: true,
-  listTileTheme: const ListTileThemeData(iconColor: Colors.white),
+  listTileTheme: ListTileThemeData(
+    iconColor: Colors.white,
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(12)
+    ),
+  ),
   cardTheme: const CardTheme(color: Color.fromARGB(255, 58, 58, 58)),
   textButtonTheme: TextButtonThemeData(
     style: ButtonStyle(
