@@ -29,6 +29,14 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
 
   final _appRouter = AppRouter();
+  late CryptoCoinsAllBloc _cryptoCoinsAllBloc;
+
+  @override
+  void initState() {
+    _cryptoCoinsAllBloc = CryptoCoinsAllBloc(widget.cryptoCoinsRepository, widget.favoritesRepository);
+    _cryptoCoinsAllBloc.add(LoadCryptoCoinsAll());
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +49,7 @@ class _MyAppState extends State<MyApp> {
             create: (context) => CryptoCoinBloc(widget.cryptoCoinsRepository),
           ),
           BlocProvider(
-            create: (context) => CryptoCoinsAllBloc(widget.cryptoCoinsRepository, widget.favoritesRepository),
+            create: (context) => _cryptoCoinsAllBloc,
           ),
         ],
         child: MaterialApp.router(

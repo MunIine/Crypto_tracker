@@ -23,11 +23,11 @@ class SearchBottomSheet extends StatefulWidget {
 class _SearchBottomSheetState extends State<SearchBottomSheet> {
   final controller = TextEditingController();
 
-  @override
-  void initState() {
-    BlocProvider.of<CryptoCoinsAllBloc>(context).add(LoadCryptoCoinsAll());
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   BlocProvider.of<CryptoCoinsAllBloc>(context).add(LoadCryptoCoinsAll());
+  //   super.initState();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +47,8 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                   ),
                   child: TextField(
                     controller: controller,
+                    textInputAction: TextInputAction.search,
+                    onSubmitted: (_) => _searchCoin(),
                     style: const TextStyle(
                       decoration: TextDecoration.none
                     ),

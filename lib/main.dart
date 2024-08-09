@@ -63,7 +63,6 @@ void main() async{
         cryptoCoinsBox: cryptoCoinsBox,
         cryptoCoinsAllBox: cryptoCoinsAllBox
       );
-      // GetIt.I.registerLazySingleton<AbstractCoinsRepository>(() => cryptoCoinsRepository);
       
       runApp(MyApp(
         cryptoCoinsRepository: cryptoCoinsRepository, 
