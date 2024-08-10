@@ -3,10 +3,8 @@ import 'dart:async';
 import 'package:auto_route/auto_route.dart';
 import 'package:coins_list/features/crypto_list/bloc/crypto_list_bloc.dart';
 import 'package:coins_list/features/crypto_list/widgets/widgets.dart';
-import 'package:coins_list/features/search_bottom_sheet/bloc/crypto_coins_all_bloc.dart';
 import 'package:coins_list/generated/l10n.dart';
 import 'package:coins_list/features/search_bottom_sheet/view/search_bottom_sheet.dart';
-import 'package:coins_list/repositories/crypto_coins/crypto_coins.dart';
 import 'package:coins_list/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -23,9 +21,6 @@ class CryptoListScreen extends StatefulWidget {
 }
 
 class _CryptoListScreenState extends State<CryptoListScreen> {
-
-  bool editMode = false;
-
   @override
   void initState() {
     BlocProvider.of<CryptoListBloc>(context).add(LoadCryptoList());
@@ -51,13 +46,9 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
         ),
         actions: [
           IconButton(
-            iconSize: 35,
-            onPressed: (){
-              setState(() {
-                editMode = !editMode;
-              });
-            }, 
-            icon: const Icon(Icons.edit_note)
+            iconSize: 26,
+            onPressed: (){},
+            icon: const Icon(Icons.settings)
           )
         ],
       ),
@@ -102,21 +93,43 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
         itemCount: state.coinsList.length,
         itemBuilder: (context, i) {
           final coin = state.coinsList[i];
-          return CryptoCoinTile(
-            key: Key("$i"),
-            coin: coin, 
-            trailing: _iconOnEditMode(context, state, i, coin),
-            onTap: editMode ? 
-              (){} : 
-              () => AutoRouter.of(context).push(CryptoCoinRoute(coinName: coin.name)),
+          return Dismissible(
+            key: Key(coin.name),
+            background: Container(
+              alignment: Alignment.centerRight,
+              padding: const EdgeInsets.only(right: 20.0),
+              decoration: BoxDecoration(
+                color: Colors.red,
+                borderRadius: BorderRadius.circular(12)
+              ),
+              child: const Icon(Icons.cancel_outlined),
+            ),
+            onDismissed: (direction) {
+              BlocProvider.of<CryptoListBloc>(context).add(AddOrRemoveCoinFromList(coin: state.coinsList[i]));
+              setState(() {
+                state.coinsList.removeAt(i);
+              });
+            },
+            direction: DismissDirection.endToStart,
+            child: CryptoCoinTile(
+              key: Key("$i"),
+              coin: coin, 
+              trailing: GestureDetector(
+                onTap: () => AutoRouter.of(context).push(CryptoCoinRoute(coinName: coin.name)),
+                child: const Icon(
+                  Icons.arrow_forward,
+                  size: 30,
+                ),
+              ),
+              onTap: () => AutoRouter.of(context).push(CryptoCoinRoute(coinName: coin.name)),
+            ),
           );
         },
         proxyDecorator: (child, index, animation) {
-          return Material(
-            borderRadius: BorderRadius.circular(12),
-            color: const Color.fromARGB(255, 68, 68, 68),
+          return Opacity(
+            opacity: 0.75,
             child: child,
-          );  
+          );
         },
         onReorderStart: (index) => HapticFeedback.mediumImpact(),
         onReorder: (oldIndex, newIndex) {
@@ -135,24 +148,6 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
     if (state is CryptoListInitial) return _centerWithAppbar(const InitialScreen());
 
     return _centerWithAppbar(const Center(child: CircularProgressIndicator()));
-  }
-
-
-  GestureDetector _iconOnEditMode(BuildContext context, CryptoListLoaded state, int i, CryptoCoin coin) {
-    final theme = Theme.of(context);
-    return GestureDetector(
-      onTap: editMode ? (){
-        BlocProvider.of<CryptoCoinsAllBloc>(context).add(AddOrRemoveFavorite(coinName: state.coinsList[i].name));
-        setState(() {
-          state.coinsList.removeAt(i);
-        });
-      } : () => AutoRouter.of(context).push(CryptoCoinRoute(coinName: coin.name)),
-      child: Icon(
-        editMode ? Icons.star_rounded : Icons.arrow_forward,
-        color: editMode ? theme.primaryColor : theme.iconTheme.color,
-        size: 30,
-      ),
-    );
   }
 
   Padding _centerWithAppbar(child) {

@@ -34,6 +34,19 @@ class CryptoListBloc extends Bloc<CryptoListEvent, CryptoListState> {
     on<ReorderFavorites>((event, emit) async{
       await favoritesRepository.reorderFavorites(event.oldIndex, event.newIndex);
     });
+    on<AddOrRemoveCoinFromList>((event, emit) async{
+      try {
+        final prevState = state;
+        if (prevState is! CryptoListLoaded){
+          return;
+        }
+        await favoritesRepository.addOrRemoveFavorite(event.coin.name);
+        prevState.coinsList.remove(event.coin);
+        emit(prevState);
+      } catch (e, st) {
+        GetIt.I<Talker>().handle(e, st);
+      }
+    });
   }
 
   final AbstractCoinsRepository coinsRepository;
