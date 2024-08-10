@@ -109,6 +109,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
               setState(() {
                 state.coinsList.removeAt(i);
               });
+              if (state.coinsList.isEmpty) BlocProvider.of<CryptoListBloc>(context).add(LoadCryptoList());
             },
             direction: DismissDirection.endToStart,
             child: CryptoCoinTile(
@@ -144,6 +145,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
         },
       );
     }
+
     if (state is CryptoListLoadingFailure) return _centerWithAppbar(const FailureScreen());
     if (state is CryptoListInitial) return _centerWithAppbar(const InitialScreen());
 
