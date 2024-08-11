@@ -5,4 +5,5 @@ abstract class AbstractCoinsRepository{
   Future<CryptoCoin> getCoinDetails(String coinName);
   Future<void> getAllCoinsList();
   Future<List<CryptoCoin>> getCoinFromSearch(String coinName);
+  Future<List<CryptoCoin>> getRecommendedCoins();
 }

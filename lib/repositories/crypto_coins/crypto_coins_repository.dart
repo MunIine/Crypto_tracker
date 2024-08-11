@@ -104,7 +104,23 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
     throwIf(responseData.containsValue("Error"), CoinNotFoundException());
     return await _fetchCryptoCoinsListFromAPI(response);
   }
-
+  
+  @override
+  Future<List<CryptoCoin>> getRecommendedCoins() async{
+    final response = await dio.get("https://min-api.cryptocompare.com/data/top/mktcapfull?limit=100&tsym=USD");
+    final responseData = response.data["Data"];
+    List<CryptoCoin> coinsList = [];
+    for (var el in responseData){
+      try {
+        final name = el["CoinInfo"]["Name"];
+        final details = CryptoCoinDetails.fromJson(el["RAW"]["USD"]);
+        coinsList.add(CryptoCoin(name: name, details: details));
+      } on NoSuchMethodError{
+        continue;
+      }
+    }
+    return coinsList;
+  }
 
   Future<List<CryptoCoin>> _fetchCryptoCoinsListFromAPI(Response<dynamic> response) async {
     final data = response.data["RAW"] as Map<String, dynamic>;

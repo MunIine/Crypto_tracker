@@ -24,6 +24,12 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
   final controller = TextEditingController();
 
   @override
+  void initState() {
+    BlocProvider.of<CryptoCoinsAllBloc>(context).add(LoadRecommendedCoins());
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Column(
@@ -77,7 +83,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         ),
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 10).copyWith(bottom: 65),
+            padding: const EdgeInsets.symmetric(horizontal: 10),
             child: BlocBuilder<CryptoCoinsAllBloc, CryptoCoinsAllState>(
               builder: _buildCoinsList
             ),
@@ -115,14 +121,11 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
         },
       );
     }
-    if (state is SearchCryptoCoinLoading){
-      return const Center(child: CircularProgressIndicator());
-    }
     if (state is SearchCryptoCoinLoadingFailure){
-      if (state.exception is CoinNotFoundException) return const CoinNotFoundScreen();
-      return FailureScreen(controller: controller);
+      if (state.exception is CoinNotFoundException) return _centerWithSearch(const CoinNotFoundScreen());
+      return _centerWithSearch(FailureScreen(controller: controller));
     }
-    return const InitialSearchScreen();
+    return _centerWithSearch(const Center(child: CircularProgressIndicator()));
   }
 
   Future<void> _toggleFavorite(context, coin) async{
@@ -133,5 +136,12 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     cryptoCoinsAllBloc.add(AddOrRemoveFavorite(coinName: coin.name, completer: completer));
     await completer.future;
     cryptoListBloc.add(LoadCryptoList());
+  }
+
+  Padding _centerWithSearch(child) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 65),
+      child: child
+    );
   }
 }

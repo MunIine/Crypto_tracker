@@ -27,9 +27,7 @@ class CryptoCoinsAllBloc extends Bloc<CryptoCoinsAllEvent, CryptoCoinsAllState> 
 
     on<SearchCryptoCoin>((event, emit) async{
       try {
-        if (state is! SearchCryptoCoinLoaded){
         emit(SearchCryptoCoinLoading());
-        }
         final coinsList = await coinsRepository.getCoinFromSearch(event.coinName);
         final favorites = await favoritesRepository.getFavorites();
         emit(SearchCryptoCoinLoaded(
@@ -61,6 +59,21 @@ class CryptoCoinsAllBloc extends Bloc<CryptoCoinsAllEvent, CryptoCoinsAllState> 
       }
       finally{
         event.completer?.complete();
+      }
+    });
+
+    on<LoadRecommendedCoins>((event, emit) async{
+      try {
+        emit(SearchCryptoCoinLoading());
+        final coinsList = await coinsRepository.getRecommendedCoins();
+        final favorites = await favoritesRepository.getFavorites();
+        emit(SearchCryptoCoinLoaded(
+          favoritesList: _getFavoritesList(coinsList, favorites), 
+          coinsList: coinsList
+        ));
+      } catch (e, st) {
+        emit(SearchCryptoCoinLoadingFailure(exception: e));
+        GetIt.I<Talker>().handle(e, st);
       }
     });
   }

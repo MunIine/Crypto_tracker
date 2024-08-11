@@ -30,3 +30,8 @@ class AddOrRemoveFavorite extends CryptoCoinsAllEvent{
   @override
   List<Object?> get props => [coinName, completer];
 }
+
+class LoadRecommendedCoins extends CryptoCoinsAllEvent{
+  @override
+  List<Object?> get props => [];
+}
