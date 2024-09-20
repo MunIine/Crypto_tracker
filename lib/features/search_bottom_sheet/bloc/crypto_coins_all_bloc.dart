@@ -14,13 +14,8 @@ class CryptoCoinsAllBloc extends Bloc<CryptoCoinsAllEvent, CryptoCoinsAllState> 
   CryptoCoinsAllBloc(this.coinsRepository, this.favoritesRepository) : super(CryptoCoinsAllInitial()) {
     on<LoadCryptoCoinsAll>((event, emit) async{
       try{
-        if (state is! CryptoCoinsAllLoaded){
-        emit(CryptoCoinsAllLoading());
-        }
         await coinsRepository.getAllCoinsList();
-        emit(CryptoCoinsAllLoaded());
       }catch (e, st) {
-        emit(CryptoCoinsAllLoadingFailure(exception: e));
         GetIt.I<Talker>().handle(e, st);
       }
     });

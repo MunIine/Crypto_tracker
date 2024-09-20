@@ -7,26 +7,6 @@ class CryptoCoinsAllInitial extends CryptoCoinsAllState {
   List<Object?> get props => [];
 }
 
-class CryptoCoinsAllLoading extends CryptoCoinsAllState {
-  @override
-  List<Object?> get props => [];
-}
-
-class CryptoCoinsAllLoaded extends CryptoCoinsAllState {
-  @override
-  List<Object?> get props => [];
-}
-
-class CryptoCoinsAllLoadingFailure extends CryptoCoinsAllState{
-  CryptoCoinsAllLoadingFailure({this.exception});
-
-  final Object? exception;
-  
-  @override
-  List<Object?> get props => [exception];
-}
-
-
 class SearchCryptoCoinLoading extends CryptoCoinsAllState {
   @override
   List<Object?> get props => [];
