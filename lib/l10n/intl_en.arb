@@ -14,5 +14,6 @@
   "enterNameOrSymbol": "Enter name or symbol",
   "inSearchLine": "in search line",
   "onYourListOfCryptocurrencies": "On your list of cryptocurrencies",
-  "nothingYet": "nothing yet"
+  "nothingYet": "nothing yet",
+  "undo": "undo"
 }

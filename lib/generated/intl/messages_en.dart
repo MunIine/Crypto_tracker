@@ -47,6 +47,7 @@ class MessageLookup extends MessageLookupByLibrary {
             MessageLookupByLibrary.simpleMessage("Search coins..."),
         "somethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Something went wrong"),
-        "tryAgainButton": MessageLookupByLibrary.simpleMessage("TRY AGAIN")
+        "tryAgainButton": MessageLookupByLibrary.simpleMessage("TRY AGAIN"),
+        "undo": MessageLookupByLibrary.simpleMessage("undo")
       };
 }

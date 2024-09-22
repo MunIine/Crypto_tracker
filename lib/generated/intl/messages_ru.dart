@@ -50,6 +50,7 @@ class MessageLookup extends MessageLookupByLibrary {
         "somethingWentWrong":
             MessageLookupByLibrary.simpleMessage("Что-то пошло не так"),
         "tryAgainButton":
-            MessageLookupByLibrary.simpleMessage("ПОПРОБОВАТЬ ЕЩЁ РАЗ")
+            MessageLookupByLibrary.simpleMessage("ПОПРОБОВАТЬ ЕЩЁ РАЗ"),
+        "undo": MessageLookupByLibrary.simpleMessage("Отменить")
       };
 }

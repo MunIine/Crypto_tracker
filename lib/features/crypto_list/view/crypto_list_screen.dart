@@ -5,6 +5,7 @@ import 'package:coins_list/features/crypto_list/bloc/crypto_list_bloc.dart';
 import 'package:coins_list/features/crypto_list/widgets/widgets.dart';
 import 'package:coins_list/generated/l10n.dart';
 import 'package:coins_list/features/search_bottom_sheet/view/search_bottom_sheet.dart';
+import 'package:coins_list/repositories/crypto_coins/models/models.dart';
 import 'package:coins_list/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -59,7 +60,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
             onTap: (){
               showModalBottomSheet(
                 isScrollControlled: true,
-                context: context, 
+                context: context,
                 backgroundColor: theme.scaffoldBackgroundColor,
                 builder: (context) => SearchBottomSheet(hintText: S.of(context).searchBottomSheetText)
               );
@@ -75,9 +76,8 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
               backgroundColor: theme.scaffoldBackgroundColor,
               child: Padding(
                 padding: const EdgeInsets.all(10),
-                child:
-                  BlocBuilder<CryptoListBloc, CryptoListState>(
-                    builder: _buildCoinsList,
+                child: BlocBuilder<CryptoListBloc, CryptoListState>(
+                  builder: _buildCoinsList,
                 ),
               )
             ),
@@ -98,23 +98,21 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
             background: Container(
               alignment: Alignment.centerRight,
               padding: const EdgeInsets.only(right: 20.0),
-              decoration: BoxDecoration(
-                color: Colors.red,
-                borderRadius: BorderRadius.circular(12)
-              ),
+              decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(12)),
               child: const Icon(Icons.cancel_outlined),
             ),
             onDismissed: (direction) {
+              final bloc = BlocProvider.of<CryptoListBloc>(context);
+              ScaffoldMessenger.of(context).showSnackBar(
+                undoMessage(context, coin, i, const Duration(seconds: 5), bloc)
+              );
+
               BlocProvider.of<CryptoListBloc>(context).add(AddOrRemoveCoinFromList(coin: state.coinsList[i]));
-              setState(() {
-                state.coinsList.removeAt(i);
-              });
-              if (state.coinsList.isEmpty) BlocProvider.of<CryptoListBloc>(context).add(LoadCryptoList());
             },
             direction: DismissDirection.endToStart,
             child: CryptoCoinTile(
               key: Key("$i"),
-              coin: coin, 
+              coin: coin,
               trailing: GestureDetector(
                 onTap: () => AutoRouter.of(context).push(CryptoCoinRoute(coinName: coin.name)),
                 child: const Icon(
@@ -135,7 +133,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
         onReorderStart: (index) => HapticFeedback.mediumImpact(),
         onReorder: (oldIndex, newIndex) {
           setState(() {
-            if (oldIndex < newIndex){
+            if (oldIndex < newIndex) {
               newIndex -= 1;
             }
             final item = state.coinsList.removeAt(oldIndex);
@@ -152,10 +150,40 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
     return _centerWithAppbar(const Center(child: CircularProgressIndicator()));
   }
 
-  Padding _centerWithAppbar(child) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 50),
-      child: child
+  SnackBar undoMessage(BuildContext context, CryptoCoin coin, int index, Duration duration, bloc) {
+    return SnackBar(
+      backgroundColor: const Color(0xFF2E2E2E),
+      behavior: SnackBarBehavior.floating,
+      dismissDirection: DismissDirection.horizontal,
+      duration: duration,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+      action: SnackBarAction(
+        label: S.of(context).undo, 
+        textColor: Theme.of(context).primaryColor,
+        backgroundColor: Theme.of(context).cardTheme.color,
+        onPressed: () => bloc.add(AddOrRemoveCoinFromList(coin: coin, index: index))
+      ),
+      content: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Row(
+            children: [
+              const Icon(Icons.info_outline, color: Colors.red),
+              const SizedBox(width: 5),
+              Text(
+                "Удалён: ${coin.name}",
+                style: const TextStyle(color: Colors.white70),
+              )
+            ],
+          ),
+          const SizedBox(height: 8),
+          LinearProgressIndicatorWithTime(duration: Duration(milliseconds: duration.inMilliseconds+300))
+        ],
+      ),
     );
+  }
+
+  Padding _centerWithAppbar(child) {
+    return Padding(padding: const EdgeInsets.only(bottom: 50), child: child);
   }
 }

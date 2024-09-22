@@ -27,9 +27,10 @@ class ReorderFavorites extends CryptoListEvent{
 }
 
 class AddOrRemoveCoinFromList extends CryptoListEvent{
-  AddOrRemoveCoinFromList({required this.coin});
+  AddOrRemoveCoinFromList({this.index, required this.coin});
   
   final CryptoCoin coin;
+  final int? index;
 
   @override
   List<Object?> get props => [coin];
