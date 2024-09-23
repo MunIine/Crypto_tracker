@@ -152,11 +152,7 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
 
   SnackBar undoMessage(BuildContext context, CryptoCoin coin, int index, Duration duration, bloc) {
     return SnackBar(
-      backgroundColor: const Color(0xFF2E2E2E),
-      behavior: SnackBarBehavior.floating,
-      dismissDirection: DismissDirection.horizontal,
       duration: duration,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       action: SnackBarAction(
         label: S.of(context).undo, 
         textColor: Theme.of(context).primaryColor,
@@ -171,8 +167,8 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
               const Icon(Icons.info_outline, color: Colors.red),
               const SizedBox(width: 5),
               Text(
-                "Удалён: ${coin.name}",
-                style: const TextStyle(color: Colors.white70),
+                "${S.of(context).deleted}: ${coin.name}",
+                style: TextStyle(color: Colors.white.withOpacity(0.9)),
               )
             ],
           ),

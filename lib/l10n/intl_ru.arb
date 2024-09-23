@@ -15,5 +15,6 @@
   "inSearchLine": "в строку поиска",
   "onYourListOfCryptocurrencies": "В вашем списке криптовалют",
   "nothingYet": "пока ничего нет",
-  "undo": "Отменить"
+  "undo": "Отменить",
+  "deleted": "Удалён"
 }

@@ -26,6 +26,7 @@ class MessageLookup extends MessageLookupByLibrary {
             "We cannot find the crypto coin"),
         "cryptoCoinsSearchBar":
             MessageLookupByLibrary.simpleMessage("Search coins..."),
+        "deleted": MessageLookupByLibrary.simpleMessage("Deleted"),
         "enterNameOrSymbol":
             MessageLookupByLibrary.simpleMessage("Enter name or symbol"),
         "hight24Hours": MessageLookupByLibrary.simpleMessage("Hight 24 hours"),
