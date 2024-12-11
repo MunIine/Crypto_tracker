@@ -93,31 +93,36 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
         itemCount: state.coinsList.length,
         itemBuilder: (context, i) {
           final coin = state.coinsList[i];
-          return Dismissible(
-            key: Key(coin.name),
-            background: Container(
-              alignment: Alignment.centerRight,
-              padding: const EdgeInsets.only(right: 20.0),
-              decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(12)),
-              child: const Icon(Icons.cancel_outlined),
-            ),
-            onDismissed: (direction) {
-              final bloc = BlocProvider.of<CryptoListBloc>(context);
-              ScaffoldMessenger.of(context).showSnackBar(
-                undoMessage(context, coin, i, const Duration(seconds: 5), bloc)
-              );
-
-              BlocProvider.of<CryptoListBloc>(context).add(AddOrRemoveCoinFromList(coin: state.coinsList[i]));
-            },
-            direction: DismissDirection.endToStart,
-            child: CryptoCoinTile(
-              key: Key("$i"),
-              coin: coin,
-              trailing: const Icon(
-                Icons.arrow_forward,
-                size: 30,
+          return Padding(
+            key: Key("${coin.name}-TOP"),
+            padding: const EdgeInsets.all(4),
+            child: Dismissible(
+              key: Key(coin.name),
+              background: Container(
+                alignment: Alignment.centerRight,
+                padding: const EdgeInsets.only(right: 20.0),
+                decoration: BoxDecoration(color: Colors.red, borderRadius: BorderRadius.circular(12)),
+                child: const Icon(Icons.cancel_outlined),
               ),
-              onTap: () => AutoRouter.of(context).push(CryptoCoinRoute(coinName: coin.name)),
+              onDismissed: (direction) {
+                final bloc = BlocProvider.of<CryptoListBloc>(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  undoMessage(context, coin, i, const Duration(seconds: 5), bloc)
+                );
+            
+                BlocProvider.of<CryptoListBloc>(context).add(AddOrRemoveCoinFromList(coin: state.coinsList[i]));
+              },
+              direction: DismissDirection.endToStart,
+              child: CryptoCoinTile(
+                key: Key("$i"),
+                coin: coin,
+                margin: EdgeInsets.zero,
+                trailing: const Icon(
+                  Icons.arrow_forward,
+                  size: 30,
+                ),
+                onTap: () => AutoRouter.of(context).push(CryptoCoinRoute(coinName: coin.name)),
+              ),
             ),
           );
         },

@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 class CryptoCoinTile extends StatelessWidget {
   const CryptoCoinTile({
     super.key,
-    required this.coin, 
+    required this.coin,
+    this.margin,
     this.trailing, 
     this.onTap,
   });
 
   final CryptoCoin coin;
+  final EdgeInsetsGeometry? margin;
   final Widget? trailing;
   final VoidCallback? onTap;
 
@@ -18,7 +20,7 @@ class CryptoCoinTile extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Card(
-        semanticContainer: false,
+        margin: margin,
         child: ListTile(
           leading: Image.network(
             coin.details.fullImageURL,
