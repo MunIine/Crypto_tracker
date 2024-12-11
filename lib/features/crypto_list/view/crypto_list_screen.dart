@@ -113,12 +113,9 @@ class _CryptoListScreenState extends State<CryptoListScreen> {
             child: CryptoCoinTile(
               key: Key("$i"),
               coin: coin,
-              trailing: GestureDetector(
-                onTap: () => AutoRouter.of(context).push(CryptoCoinRoute(coinName: coin.name)),
-                child: const Icon(
-                  Icons.arrow_forward,
-                  size: 30,
-                ),
+              trailing: const Icon(
+                Icons.arrow_forward,
+                size: 30,
               ),
               onTap: () => AutoRouter.of(context).push(CryptoCoinRoute(coinName: coin.name)),
             ),

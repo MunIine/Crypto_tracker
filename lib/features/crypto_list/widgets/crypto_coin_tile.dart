@@ -15,25 +15,27 @@ class CryptoCoinTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      semanticContainer: false,
-      child: ListTile(
-        leading: Image.network(
-          coin.details.fullImageURL,
-          width: 50,
-          height: 50,
-          errorBuilder: (context, e, st) => Image.asset("lib/assets/default_coin.png"),
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        semanticContainer: false,
+        child: ListTile(
+          leading: Image.network(
+            coin.details.fullImageURL,
+            width: 50,
+            height: 50,
+            errorBuilder: (context, e, st) => Image.asset("lib/assets/default_coin.png"),
+          ),
+          title: Text(
+            coin.name,
+            style: Theme.of(context).textTheme.bodyMedium,
+          ),
+          subtitle: Text(
+            "${coin.details.priceInUSD}\$",
+            style: Theme.of(context).textTheme.labelSmall,
+          ),
+          trailing: trailing,
         ),
-        title: Text(
-          coin.name,
-          style: Theme.of(context).textTheme.bodyMedium,
-        ),
-        subtitle: Text(
-          "${coin.details.priceInUSD}\$",
-          style: Theme.of(context).textTheme.labelSmall,
-        ),
-        trailing: trailing,
-        onTap: onTap,
       ),
     );
   }

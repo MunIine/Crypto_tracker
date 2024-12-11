@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:auto_route/auto_route.dart';
 import 'package:coins_list/extensions/exception_extensions.dart';
 import 'package:coins_list/features/crypto_list/bloc/crypto_list_bloc.dart';
 import 'package:coins_list/features/search_bottom_sheet/bloc/crypto_coins_all_bloc.dart';
 import 'package:coins_list/features/crypto_list/widgets/crypto_coin_tile.dart';
 import 'package:coins_list/features/search_bottom_sheet/widgets/widgets.dart';
+import 'package:coins_list/router/router.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -117,6 +119,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
                 color: Theme.of(context).primaryColor,
               )
             ),
+            onTap: () => AutoRouter.of(context).push(CryptoCoinRoute(coinName: coin.name))
           );
         },
       );
