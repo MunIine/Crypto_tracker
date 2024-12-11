@@ -66,7 +66,7 @@ void main() async{
       
       runApp(MyApp(
         cryptoCoinsRepository: cryptoCoinsRepository, 
-        favoritesRepository: FavoritesRepository(favoritesBox: favoritesBox)
+        favoritesRepository: FavoritesRepository(cryptoCoinsBox: cryptoCoinsBox, favoritesBox: favoritesBox)
       ));
     },
     (e, st) => GetIt.I<Talker>().handle(e, st)

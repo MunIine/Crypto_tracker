@@ -20,15 +20,15 @@ class SearchCryptoCoin extends CryptoCoinsAllEvent{
 
 class AddOrRemoveFavorite extends CryptoCoinsAllEvent{
   AddOrRemoveFavorite({
-    required this.coinName,
+    required this.coin,
     this.completer
   });
 
-  final String coinName;
+  final CryptoCoin coin;
   final Completer? completer;
 
   @override
-  List<Object?> get props => [coinName, completer];
+  List<Object?> get props => [coin, completer];
 }
 
 class LoadRecommendedCoins extends CryptoCoinsAllEvent{

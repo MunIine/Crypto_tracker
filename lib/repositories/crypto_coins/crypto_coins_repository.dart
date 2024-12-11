@@ -37,7 +37,9 @@ class CryptoCoinsRepository implements AbstractCoinsRepository{
       return cryptoCoinsList;
     } on Exception catch (e, st) {
       GetIt.I<Talker>().handle(e, st);
-      cryptoCoinsList = cryptoCoinsBox.values.toList();
+      for (var el in coinsName) {
+        cryptoCoinsList.add(cryptoCoinsBox.get(el)!);
+      }
     }
 
     return cryptoCoinsList;

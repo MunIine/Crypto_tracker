@@ -41,7 +41,7 @@ class CryptoCoinsAllBloc extends Bloc<CryptoCoinsAllEvent, CryptoCoinsAllState> 
         if (prevState is! SearchCryptoCoinLoaded){
           return;
         }
-        final favorites = await favoritesRepository.addOrRemoveFavorite(event.coinName);
+        final favorites = await favoritesRepository.addOrRemoveFavorite(event.coin);
         emit(prevState.copyWith(
           favoritesList: _getFavoritesList(
             prevState.coinsList, 

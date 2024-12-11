@@ -45,7 +45,7 @@ class CryptoListBloc extends Bloc<CryptoListEvent, CryptoListState> {
         }else{
           return;
         }
-        await favoritesRepository.addOrRemoveFavorite(event.coin.name);
+        await favoritesRepository.addOrRemoveFavorite(event.coin);
         
         if (updatedCoinsList.contains(event.coin)) {
           updatedCoinsList.remove(event.coin);

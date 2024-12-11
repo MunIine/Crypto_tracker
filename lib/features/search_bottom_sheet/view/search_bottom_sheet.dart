@@ -133,7 +133,7 @@ class _SearchBottomSheetState extends State<SearchBottomSheet> {
     final cryptoListBloc = BlocProvider.of<CryptoListBloc>(context);
     final completer = Completer();
 
-    cryptoCoinsAllBloc.add(AddOrRemoveFavorite(coinName: coin.name, completer: completer));
+    cryptoCoinsAllBloc.add(AddOrRemoveFavorite(coin: coin, completer: completer));
     await completer.future;
     cryptoListBloc.add(LoadCryptoList());
   }
